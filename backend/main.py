@@ -1,5 +1,6 @@
 from typing import Optional
 
+import uvicorn
 from fastapi import FastAPI
 
 from sql_app import crud, models, schemas
@@ -42,3 +43,6 @@ def patch_inquiry_data_sharing(id: int):
 @app.patch("/inquiry/{id}")
 def patch_inquiry(id: int):
     return ""
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

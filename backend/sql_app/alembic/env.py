@@ -7,9 +7,15 @@ from alembic import context
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
-import models
+import os, sys
+from dotenv import load_dotenv
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
+sys.path.append(BASE_DIR)
 
 config = context.config
+config.set_main_option("sqlalchemy.url", "postgresql+psycopg2://user:example@localhost:5432/db")
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -19,6 +25,7 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
+import models
 target_metadata = models.Base.metadata
 
 # other values from the config, defined by the needs of env.py,
@@ -73,7 +80,7 @@ def run_migrations_online():
             context.run_migrations()
 
 
-# if context.is_offline_mode():
-run_migrations_offline()
-#else:
- #   run_migrations_online()
+if context.is_offline_mode():
+    run_migrations_offline()
+else:
+    run_migrations_online()
