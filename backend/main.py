@@ -2,10 +2,23 @@ from typing import Optional
 
 from fastapi import FastAPI
 
+from sql_app import crud, models, schemas
+from sql_app.database import SessionLocal, engine
+from sql_app.models import Inquiry
+
+models.Base.metadata.create_all(bind=engine)
+
 app = FastAPI()
 
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 @app.post("/inquiry/")
-async def create_inquiry(inquiry: Inquiry):
+async def create_inquiry(inquiry: Inquiry, db: Session = Depends(get_db)):
     return inquiry
 
 @app.delete("/inquiry/{id}")
