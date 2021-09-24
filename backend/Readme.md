@@ -1,6 +1,8 @@
 # Installation
 Create a virtual environment.
 Install requirements with `pip install -r requirements.txt`
+Run the database with `docker compose up -d`.
+Initialize the database with `alembic upgrade head` in the folder `backend/sql_app` (after activating the virtual environment).
 
 # Migrations
 Go to the folder `backend/sql_app`.
