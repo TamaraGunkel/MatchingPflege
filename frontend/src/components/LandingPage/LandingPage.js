@@ -6,7 +6,7 @@ const LandingPage = () => (
     <LinkBox>
       <Link to="/login">
         <LinkOverlay>
-          <Box height="auto" p="50px" bg="tomato">
+          <Box height="auto" p="50px" bg="brand" textColor="white" rounded="md">
             <Center>
               <Heading centerContent size="lg">
                 Login für Pflegedienste
@@ -20,7 +20,7 @@ const LandingPage = () => (
     <LinkBox>
       <Link to="/create-inquiry">
         <LinkOverlay>
-          <Box height="auto" p="50px" bg="tomato">
+          <Box height="auto" p="50px" bg="brand" textColor="white" rounded="md">
             <Center>
               <Heading centerContent size="lg">
                 Anfrage erstellen
