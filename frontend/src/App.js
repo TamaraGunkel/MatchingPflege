@@ -1,15 +1,21 @@
+import * as React from 'react';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+
 import LandingPage from './components/LandingPage/LandingPage';
-import {Container} from '@chakra-ui/react';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Container>
-          <LandingPage></LandingPage>
-        </Container>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/login"></Route>
+        <Route path="/inquiries"></Route>
+        <Route path="/create-inquiry"></Route>
+        <Route path="/success"></Route>
+        <Route path="/">
+          <LandingPage />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
