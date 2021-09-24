@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, Session
 
@@ -5,15 +7,17 @@ from . import models, schemas
 from .database import Base
 
 
-def create_inquiry(db: Session, inquiry: schemas.InquiryCreate, customer_id: int):
+def create_inquiry(db: Session, inquiry: schemas.InquiryCreate, customer_id: int, service_ids: List[int], time_ids: List[int]):
+    # dont only use first service id but create n:m relation
+    # todo do the same for times
+
     db_inquiry = models.Inquiry(address_street=inquiry.address.street, address_number=inquiry.address.number,
                                 address_postal_code=inquiry.address.postal_code, address_city=inquiry.address.city,
                                 address_district=inquiry.address.district, level_of_care=inquiry.level_of_care,
                                 duration_in_minutes=inquiry.duration.total_seconds() / 60, hiring_start=inquiry.hiring_start,
                                 hiring_end=inquiry.hiring_end, description=inquiry.description,
                                 necessary_expertise=inquiry.necessary_expertise, contact_opt_in=inquiry.contact_opt_in,
-                                customer_id=customer_id)
-    # todo handle service id,  time id
+                                customer_id=customer_id, service_id=service_ids[0], time_id=time_ids[0])
     db.add(db_inquiry)
     db.commit()
     db.refresh(db_inquiry)
@@ -26,6 +30,14 @@ def create_service(db: Session, service:schemas.ServiceCreate):
     db.commit()
     db.refresh(db_service)
     return db_service
+
+
+def create_time(db: Session, time:schemas.InquiryTimeCreate):
+    db_time = models.InquiryTime(weekday=time.weekday, time_start=time.time_start, time_end=time.time_end)
+    db.add(db_time)
+    db.commit()
+    db.refresh(db_time)
+    return db_time
 
 
 def create_customer(db: Session, customer:schemas.CustomerCreate):
@@ -47,3 +59,7 @@ def get_service(db: Session, name: str):
 
 def get_inquiries(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Inquiry).offset(skip).limit(limit).all()
+
+
+def get_customer(db: Session, email: str):
+    return db.query(models.Customer).filter(models.Customer.email == email).first()
