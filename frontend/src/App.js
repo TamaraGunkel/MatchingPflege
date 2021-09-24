@@ -1,20 +1,19 @@
 import * as React from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import {VStack, Box, Heading} from '@chakra-ui/react';
+import {VStack} from '@chakra-ui/react';
 
 import LandingPage from './components/LandingPage/LandingPage';
 import Inquiries from './components/Inquiries/Inquiries';
 import CreateInquiry from './components/CreateInquiry/CreateInquiry';
 import LoginForm from './components/LoginForm/LoginForm';
 import Success from './components/Success/Success';
+import Header from './components/Header/Header';
 
 function App() {
   return (
-    <VStack w="100vw" p="0" spacing={8}>
-      <Box p={8} boxShadow="sm" w="100%" as="header">
-        <Heading size="lg">Zuhause in Münster</Heading>
-      </Box>
-      <Router>
+    <Router>
+      <VStack w="100vw" p="0" spacing={8}>
+        <Header />
         <Switch>
           <Route path="/login">
             <LoginForm />
@@ -32,8 +31,8 @@ function App() {
             <LandingPage />
           </Route>
         </Switch>
-      </Router>
-    </VStack>
+      </VStack>
+    </Router>
   );
 }
 
