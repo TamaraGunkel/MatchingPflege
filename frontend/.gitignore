@@ -1,7 +1,9 @@
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,react,node,phpstorm
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,react,node,phpstorm
-
+#Custom
+package-lock.json
+yarn.lock
 ### Node ###
 # Logs
 logs
