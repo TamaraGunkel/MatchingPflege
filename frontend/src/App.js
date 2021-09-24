@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import LandingPage from './LandingPage/LandingPage'
+import LandingPage from './components/LandingPage/LandingPage'
 import {ChakraProvider} from "@chakra-ui/react"
 import { Container } from "@chakra-ui/react"
 function App() {
