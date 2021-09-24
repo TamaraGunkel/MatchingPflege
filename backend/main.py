@@ -4,12 +4,28 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
+@app.post("/inquiry/")
+async def create_inquiry(inquiry: Inquiry):
+    return inquiry
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+@app.delete("/inquiry/{id}")
+def delete_inquiry(id: int):
+    return ""
+
+@app.get("/inquiry/{id}")
+def get_inquiry():
+    return ""
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
+@app.get("/inquiries")
+def get_inquiries(page: Optional[int] = 1, page_size:  Optional[int] = 1, district: Optional[str] = None,
+                  status: Optional[str] = None):
+    return ""
+
+@app.patch("/inquiry/{id}/data_sharing")
+def patch_inquiry_data_sharing(id: int):
+    return ""
+
+@app.patch("/inquiry/{id}")
+def patch_inquiry(id: int):
+    return ""
