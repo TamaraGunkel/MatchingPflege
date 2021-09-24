@@ -8,10 +8,10 @@ class Custumer(Base):
     __tablename__ = "customers"
 
     id = Column(Integer, primary_key=True, index=True)
-    last_name: Column(String)
-    first_name: Column(String)
-    telephone: Column(String)
-    email: Column(String, unique=True)
+    last_name = Column(String)
+    first_name = Column(String)
+    telephone = Column(String)
+    email = Column(String, unique=True)
 
 
 
@@ -25,19 +25,19 @@ class Inquiry(Base):
     
 
     id = Column(Integer, primary_key=True, index=True)
-    address_street: Column(String)
-    address_number: Column(String)
-    address_postal_code: Column(String)
-    address_city: Column(String)
-    address_district: Column(String)
-    level_of_care: Column(Integer) 
-    duration_in_minutes: Column(Integer)
-    hiring_start: Column(DateTime)
-    hiring_end: Column(DateTime)
-    description: Column(String)
-    necessary_expertise: Column(String)
-    description: Column(String)
-    contact_opt_in: Column(Boolean)
+    address_street = Column(String)
+    address_number = Column(String)
+    address_postal_code = Column(String)
+    address_city = Column(String)
+    address_district = Column(String)
+    level_of_care = Column(Integer) 
+    duration_in_minutes = Column(Integer)
+    hiring_start = Column(DateTime)
+    hiring_end = Column(DateTime)
+    description = Column(String)
+    necessary_expertise = Column(String)
+    description = Column(String)
+    contact_opt_in = Column(Boolean)
     
     services = relationship("Service")
     times = relationship("InquiryTime")
