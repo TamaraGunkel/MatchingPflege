@@ -1,7 +1,8 @@
 from typing import Optional
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
+from sqlalchemy.orm import Session
 
 from sql_app import crud, models, schemas
 from sql_app.database import SessionLocal, engine
@@ -19,8 +20,9 @@ def get_db():
         db.close()
 
 @app.post("/inquiry/")
-async def create_inquiry(inquiry: Inquiry, db: Session = Depends(get_db)):
-    return inquiry
+def create_inquiry(inquiry: schemas.InquiryCreate, db: Session = Depends(get_db)):
+    crud.create_inquiry(db=db, inquiry=inquiry)
+    return 200
 
 @app.delete("/inquiry/{id}")
 def delete_inquiry(id: int):

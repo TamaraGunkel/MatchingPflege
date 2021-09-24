@@ -1,7 +1,7 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Time, DateTime
 from sqlalchemy.orm import relationship
 
-from database import Base
+from sql_app.database import Base
 
 
 class Custumer(Base):
