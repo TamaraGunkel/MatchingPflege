@@ -1,8 +1,6 @@
-
-import datetime
 from typing import List, Optional
 
-from datetime import time, timedelta
+from datetime import time, timedelta, datetime
 
 from pydantic import BaseModel
 
@@ -36,7 +34,8 @@ class InquiryBase(BaseModel):
     level_of_care: int 
     times: List[InquiryIterval]
     duration: timedelta
-    duration_hiring: InquiryIterval
+    hiring_start: datetime
+    hiring_end: datetime
     services: List[str]
     description: str
     necessary_expertise: List[str] = []

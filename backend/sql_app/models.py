@@ -36,7 +36,6 @@ class Inquiry(Base):
     hiring_end = Column(DateTime)
     description = Column(String)
     necessary_expertise = Column(String)
-    description = Column(String)
     contact_opt_in = Column(Boolean)
 
     service_id = Column(Integer, ForeignKey("services.id"))

@@ -6,7 +6,15 @@ from .database import Base
 
 
 def create_inquiry(db: Session, inquiry: schemas.InquiryCreate):
-    db_inquiry = models.Inquiry()
+    hiring_start = ""
+
+    db_inquiry = models.Inquiry(address_street=inquiry.address.street, address_number=inquiry.address.number,
+                                address_postal_code=inquiry.address.postal_code, address_city=inquiry.address.city,
+                                address_district=inquiry.address.district, level_of_care=inquiry.level_of_care,
+                                duration_in_minutes=inquiry.duration.total_seconds() / 60, hiring_start=inquiry.hiring_start,
+                                hiring_end=inquiry.hiring_end, description=inquiry.description,
+                                necessary_expertise=inquiry.necessary_expertise, contact_opt_in=inquiry.contact_opt_in)
+    # todo handle service id, customer id, time id
     db.add(db_inquiry)
     db.commit()
     db.refresh(db_inquiry)
