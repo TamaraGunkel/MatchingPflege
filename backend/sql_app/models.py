@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from sql_app.database import Base
 
 
-class Custumer(Base):
+class Customer(Base):
     __tablename__ = "customers"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -38,12 +38,14 @@ class Inquiry(Base):
     necessary_expertise = Column(String)
     description = Column(String)
     contact_opt_in = Column(Boolean)
-    
+
+    service_id = Column(Integer, ForeignKey("services.id"))
     services = relationship("Service")
+    time_id = Column(Integer, ForeignKey("inquiry_times.id"))
     times = relationship("InquiryTime")
  
 
-class services(Base):
+class Service(Base):
     __tablename__ = "services"
 
     id = Column(Integer, primary_key=True, index=True)

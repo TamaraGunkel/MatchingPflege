@@ -24,9 +24,11 @@ def create_inquiry(inquiry: schemas.InquiryCreate, db: Session = Depends(get_db)
     crud.create_inquiry(db=db, inquiry=inquiry)
     return 200
 
+
 @app.delete("/inquiry/{id}")
 def delete_inquiry(id: int):
     return ""
+
 
 @app.get("/inquiry/{id}")
 def get_inquiry():

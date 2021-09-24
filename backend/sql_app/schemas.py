@@ -43,8 +43,15 @@ class InquiryBase(BaseModel):
     service_categories: List[str] = []
     contact_opt_in: bool
 
+class ServiceBase(BaseModel):
+    name: str
+
 
 class InquiryCreate(InquiryBase):
+    pass
+
+
+class ServiceCreate(ServiceBase):
     pass
 
 
@@ -54,3 +61,9 @@ class Inquiry(InquiryBase):
     class Config:
         orm_mode = True
 
+
+class Service(ServiceBase):
+    id: int
+
+    class Config:
+        orm_mode = True
