@@ -7,17 +7,24 @@ from datetime import time, timedelta
 from pydantic import BaseModel
 
 
-class Adress(BaseModel):
+class Address(BaseModel):
      street: str
      number: str
      postal_code: str
      city: str
      district: str
 
+     class Config:
+         orm_mode = True
+
+
 class InquiryIterval(BaseModel):
     weekday: Optional[str] = None
     time_start: time
     time_end: time
+
+    class Config:
+        orm_mode = True
 
 
 class InquiryBase(BaseModel):
@@ -25,7 +32,7 @@ class InquiryBase(BaseModel):
     first_name: str
     telephone: str
     email: Optional[str] = None
-    address: Adress
+    address: Address
     level_of_care: int 
     times: List[InquiryIterval]
     duration: timedelta
@@ -45,5 +52,5 @@ class Inquiry(InquiryBase):
     id: int
 
     class Config:
-        orm_mode = False
+        orm_mode = True
 
