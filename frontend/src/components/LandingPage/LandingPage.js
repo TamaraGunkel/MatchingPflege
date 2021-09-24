@@ -23,7 +23,7 @@ function LandingPage(props) {
         </LinkBox>
 
         <LinkBox>
-          <Link to="#">
+          <Link to="/create-inquiry">
             <LinkOverlay>
               <Box height="auto" p="50px" bg="tomato">
                 <Center>
