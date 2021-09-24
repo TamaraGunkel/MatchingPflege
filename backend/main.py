@@ -38,8 +38,8 @@ def delete_inquiry(id: int):
 
 
 @app.get("/inquiry/{id}")
-def get_inquiry():
-    user = ModelInquiry.get(id)
+def get_inquiry(id: int, db: Session = Depends(get_db)):
+    user = crud.get_inquiry(db=db, inquiry_id=id)
     dto = SchemaInquiry(**user).dict()
     return dto
 
