@@ -23,12 +23,27 @@ def get_db():
 @app.post("/inquiry/")
 def create_inquiry(inquiry: schemas.InquiryCreate, customer: schemas.CustomerCreate,
                    services: List[schemas.ServiceCreate],
+                   times: List[schemas.InquiryTimeCreate],
                    db: Session = Depends(get_db)):
-    db_customer = crud.create_customer(db=db, customer=customer)
+
+    db_customer = crud.get_customer(db=db, email=customer.email)
+    if not db_customer:
+        db_customer = crud.create_customer(db=db, customer=customer)
+
+    db_service_ids = []
     for service in services:
-        if not crud.get_service(db=db, name=service.name):
-            crud.create_service(db=db, service=service)
-    crud.create_inquiry(db=db, inquiry=inquiry, customer_id=db_customer.id)
+        db_service = crud.get_service(db=db, name=service.name)
+        if not db_service:
+            db_service = crud.create_service(db=db, service=service)
+        db_service_ids.append(db_service.id)
+
+    db_time_ids = []
+    for time in times:
+        # Todo add check if time already in database
+        db_time = crud.create_time(db=db, time=time)
+        db_time_ids.append(db_time.id)
+
+    crud.create_inquiry(db=db, inquiry=inquiry, customer_id=db_customer.id, service_ids=db_service_ids, time_ids=db_time_ids)
     return 200
 
 

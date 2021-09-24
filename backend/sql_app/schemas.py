@@ -16,23 +16,18 @@ class Address(BaseModel):
          orm_mode = True
 
 
-class InquiryIterval(BaseModel):
+class InquiryTimeBase(BaseModel):
     weekday: Optional[str] = None
     time_start: time
     time_end: time
 
-    class Config:
-        orm_mode = True
-
 
 class InquiryBase(BaseModel):
     address: Address
-    level_of_care: int 
-    times: List[InquiryIterval]
+    level_of_care: int
     duration: timedelta
     hiring_start: datetime
     hiring_end: datetime
-    services: List[str]
     description: str
     necessary_expertise: List[str] = []
     service_categories: List[str] = []
@@ -41,7 +36,6 @@ class InquiryBase(BaseModel):
 
 class ServiceBase(BaseModel):
     name: str
-
 
 class CustomerBase(BaseModel):
     last_name: str
@@ -62,6 +56,10 @@ class CustomerCreate(CustomerBase):
     pass
 
 
+class InquiryTimeCreate(InquiryTimeBase):
+    pass
+
+
 class Inquiry(InquiryBase):
     id: int
 
@@ -77,6 +75,13 @@ class Service(ServiceBase):
 
 
 class Customer(CustomerBase):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
+class InquiryTime(InquiryTimeBase):
     id: int
 
     class Config:

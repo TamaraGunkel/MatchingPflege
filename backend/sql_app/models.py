@@ -57,4 +57,5 @@ class InquiryTime(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     weekday = Column(String)
-    time_start_minut = Column(Time)
+    time_start = Column(Time)
+    time_end = Column(Time)
