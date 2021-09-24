@@ -25,8 +25,8 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-import models
-target_metadata = models.Base.metadata
+import sql_app.models
+target_metadata = sql_app.models.Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

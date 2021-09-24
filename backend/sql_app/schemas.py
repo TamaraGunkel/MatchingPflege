@@ -26,10 +26,6 @@ class InquiryIterval(BaseModel):
 
 
 class InquiryBase(BaseModel):
-    last_name: str
-    first_name: str
-    telephone: str
-    email: Optional[str] = None
     address: Address
     level_of_care: int 
     times: List[InquiryIterval]
@@ -42,8 +38,16 @@ class InquiryBase(BaseModel):
     service_categories: List[str] = []
     contact_opt_in: bool
 
+
 class ServiceBase(BaseModel):
     name: str
+
+
+class CustomerBase(BaseModel):
+    last_name: str
+    first_name: str
+    telephone: str
+    email: Optional[str] = None
 
 
 class InquiryCreate(InquiryBase):
@@ -51,6 +55,10 @@ class InquiryCreate(InquiryBase):
 
 
 class ServiceCreate(ServiceBase):
+    pass
+
+
+class CustomerCreate(CustomerBase):
     pass
 
 
@@ -62,6 +70,13 @@ class Inquiry(InquiryBase):
 
 
 class Service(ServiceBase):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
+class Customer(CustomerBase):
     id: int
 
     class Config:

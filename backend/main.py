@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 import uvicorn
 from fastapi import FastAPI, Depends
@@ -21,8 +21,14 @@ def get_db():
         db.close()
 
 @app.post("/inquiry/")
-def create_inquiry(inquiry: schemas.InquiryCreate, db: Session = Depends(get_db)):
-    crud.create_inquiry(db=db, inquiry=inquiry)
+def create_inquiry(inquiry: schemas.InquiryCreate, customer: schemas.CustomerCreate,
+                   services: List[schemas.ServiceCreate],
+                   db: Session = Depends(get_db)):
+    db_customer = crud.create_customer(db=db, customer=customer)
+    for service in services:
+        if not crud.get_service(db=db, name=service.name):
+            crud.create_service(db=db, service=service)
+    crud.create_inquiry(db=db, inquiry=inquiry, customer_id=db_customer.id)
     return 200
 
 
