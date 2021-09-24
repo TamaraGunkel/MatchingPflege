@@ -1,24 +1,39 @@
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        {
-          //<img src={logo} className="App-logo" alt="logo" />
-        }
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import {
+  Container,
+  VStack,
+  InputGroup,
+  InputLeftElement,
+  Input,
+  Button,
+  Heading,
+  Link,
+} from '@chakra-ui/react';
+import {AtSignIcon, EmailIcon, UnlockIcon} from '@chakra-ui/icons';
+import {Link as RouterLink} from 'react-router-dom';
 
-export default App;
+const LoginForm = () => (
+  <Container as="main" maxW="3xl" rounded="md" shadow="xs" p={10}>
+    <VStack spacing={4}>
+      <Heading>Login für Dienstleister</Heading>
+      <InputGroup>
+        <InputLeftElement>
+          <AtSignIcon />
+        </InputLeftElement>
+        <Input type="email" placeholder="E-Mail Adresse" />
+      </InputGroup>
+      <InputGroup>
+        <InputLeftElement>
+          <UnlockIcon />
+        </InputLeftElement>
+        <Input type="password" placeholder="Passwort" />
+      </InputGroup>
+      <Link as={RouterLink} to="/inquiries" alignSelf="flex-end">
+        <Button leftIcon={<EmailIcon />} variant="solid" bg="brand">
+          Einloggen
+        </Button>
+      </Link>
+    </VStack>
+  </Container>
+);
+
+export default LoginForm;

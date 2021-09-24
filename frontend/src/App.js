@@ -10,8 +10,8 @@ import Success from './components/Success/Success';
 
 function App() {
   return (
-    <VStack w="100vw" p="0">
-      <Box p={8} boxShadow="lg" w="100%">
+    <VStack w="100vw" p="0" spacing={8}>
+      <Box p={8} boxShadow="sm" w="100%" as="header">
         <Heading size="lg">Zuhause in Münster</Heading>
       </Box>
       <Router>
