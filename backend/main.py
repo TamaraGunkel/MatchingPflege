@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 
 from sql_app import crud, models, schemas
 from sql_app.database import SessionLocal, engine
-from sql_app.models import Inquiry
+from sql_app.models import Inquiry as ModelInquiry
+from sql_app.schemas import Inquiry as SchemaInquiry
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -32,12 +33,13 @@ def delete_inquiry(id: int):
 
 @app.get("/inquiry/{id}")
 def get_inquiry():
-    return ""
+    user = ModelInquiry.get(id)
+    dto = SchemaInquiry(**user).dict()
+    return dto
 
 
 @app.get("/inquiries")
-def get_inquiries(page: Optional[int] = 1, page_size:  Optional[int] = 1, district: Optional[str] = None,
-                  status: Optional[str] = None):
+def get_inquiries(page: Optional[int] = 1, page_size:  Optional[int] = 1, district: Optional[str] = None, status: Optional[str] = None):
     return ""
 
 @app.patch("/inquiry/{id}/data_sharing")
