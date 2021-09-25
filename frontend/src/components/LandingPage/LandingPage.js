@@ -3,8 +3,20 @@ import {Link} from 'react-router-dom';
 import {Box, Heading, Center, LinkOverlay, LinkBox, VStack, HStack} from '@chakra-ui/react';
 import {QuestionIcon} from '@chakra-ui/icons';
 import ChatBot from 'react-simple-chatbot';
-
+import {ThemeProvider} from 'styled-components';
 import BackgroundImage from '../../img/background.jpg';
+
+const theme = {
+  background: '#fff',
+  fontFamily: 'Lato, sans-serif',
+  headerBgColor: '#00b347',
+  headerFontColor: '#fff',
+  headerFontSize: '15px',
+  botBubbleColor: '#00b347',
+  botFontColor: '#fff',
+  userBubbleColor: '#fff',
+  userFontColor: '#000',
+};
 
 const LandingPage = () => {
   const [botOpen, setBotOpen] = React.useState(true);
@@ -21,9 +33,19 @@ const LandingPage = () => {
       bgBlendMode="overlay"
       bgColor="blackAlpha.400"
     >
-      <VStack p={6} spacing={6}>
+      <VStack p={6}>
         <Heading as="h1" size="4xl" color="white" textShadow="2px 2px 8px black">
           Willkommen Zuhause!
+        </Heading>
+        <Heading
+          pt={5}
+          size="xl"
+          color="white"
+          textShadow="2px 2px 8px black"
+          maxW="4xl"
+          textAlign="center"
+        >
+          Finde schnell Hilfe für die Aufgaben des Alltags.
         </Heading>
         <Heading
           size="xl"
@@ -32,29 +54,15 @@ const LandingPage = () => {
           maxW="4xl"
           textAlign="center"
         >
-          Finde schnell Hilfe für die Aufgaben des Alltags. Wähle einfach aus, wobei du Hilfe
-          benötigst.
+          Wähle einfach aus, wobei du Hilfe benötigst.
         </Heading>
       </VStack>
       <Center>
         <HStack spacing={6}>
           <LinkBox>
-            <Link to="/create-inquiry">
-              <LinkOverlay>
-                <Box height="auto" p="16" bg="green" textColor="white" rounded="md">
-                  <Center>
-                    <Heading centerContent size="lg">
-                      Hilfe für Pflege erhalten
-                    </Heading>
-                  </Center>
-                </Box>
-              </LinkOverlay>
-            </Link>
-          </LinkBox>
-          <LinkBox>
             <Link to="#">
               <LinkOverlay>
-                <Box height="auto" p="16" bg="green" textColor="white" rounded="md">
+                <Box height="auto" p="16" bg="green.600" textColor="white" rounded="md">
                   <Center>
                     <Heading centerContent size="lg">
                       Hilfe im Haushalt erhalten
@@ -64,29 +72,44 @@ const LandingPage = () => {
               </LinkOverlay>
             </Link>
           </LinkBox>
+          <LinkBox>
+            <Link to="/create-inquiry">
+              <LinkOverlay>
+                <Box height="auto" p="16" bg="green.600" textColor="white" rounded="md">
+                  <Center>
+                    <Heading centerContent size="lg">
+                      Hilfe für Pflege erhalten
+                    </Heading>
+                  </Center>
+                </Box>
+              </LinkOverlay>
+            </Link>
+          </LinkBox>
         </HStack>
       </Center>
-      <ChatBot
-        opened={botOpen}
-        toggleFloating={() => setBotOpen(!botOpen)}
-        headerTitle=""
-        botDelay={750}
-        enableSmoothScroll={true}
-        floatingIcon={<QuestionIcon color="white" w={6} h={6} />}
-        steps={[
-          {
-            id: 'computer-response',
-            message: parseMessage('{previousValue}'),
-            trigger: 'user-input',
-          },
-          {
-            id: 'user-input',
-            user: true,
-            trigger: 'computer-response',
-          },
-        ]}
-        floating={true}
-      />
+      <ThemeProvider theme={theme}>
+        <ChatBot
+          opened={botOpen}
+          toggleFloating={() => setBotOpen(!botOpen)}
+          headerTitle=""
+          botDelay={750}
+          enableSmoothScroll={true}
+          floatingIcon={<QuestionIcon color="white" w={6} h={6} />}
+          steps={[
+            {
+              id: 'computer-response',
+              message: parseMessage('{previousValue}'),
+              trigger: 'user-input',
+            },
+            {
+              id: 'user-input',
+              user: true,
+              trigger: 'computer-response',
+            },
+          ]}
+          floating={true}
+        />
+      </ThemeProvider>
     </Box>
   );
 };
