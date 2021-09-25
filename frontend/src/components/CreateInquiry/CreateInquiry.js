@@ -66,9 +66,49 @@ const CreateInquiry = () => {
   };
 
   const createInquiry_api = () => {
+    let service_objs = services.map(x => {
+      return {name: x}
+    });
 
-  }
+    console.log(services);
+    console.log(service_objs);
 
+    const requestOptions = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        inquiry: {
+          address: {
+            street: '',
+            number: '',
+            postal_code: '',
+            city: '',
+            district: '',
+          },
+          level_of_care: levelOfCare,
+          duration: 0,
+          hiring_start: '',
+          hiring_end: '',
+          description: '',
+          necessary_expertise: [],
+          service_categories: [],
+          contact_opt_in: true,
+        },
+        customer: {
+          last_name: '',
+          first_name: '',
+          telephone: '',
+          email: '',
+        },
+        services: [],
+      }),
+    };
+
+    /*  fetch('https://localhost:8000/inquiry', requestOptions)
+        .then(response => response.json())
+        .then(data => console.log(data));
+*/
+  };
 
   const cityDistricts = [
     'Albachten (48163)',
@@ -102,21 +142,21 @@ const CreateInquiry = () => {
           <Tab>
             <HStack>
               {tabIndex === 0 && <Avatar name="1" bg="gray.400" h="10" w="10" />}
-              {tabIndex !== 0 && <CheckCircleIcon color="brand" h="10" w="10" />}
+              {tabIndex !== 0 && <CheckCircleIcon color="green" h="10" w="10" />}
               <Heading size="md">Bedürfnisse angeben</Heading>
             </HStack>
           </Tab>
           <Tab>
             <HStack>
               {tabIndex <= 1 && <Avatar name="2" bg="gray.400" h="10" w="10" />}
-              {tabIndex > 1 && <CheckCircleIcon color="brand" h="10" w="10" />}
+              {tabIndex > 1 && <CheckCircleIcon color="green" h="10" w="10" />}
               <Heading size="md">Wann und Wo</Heading>
             </HStack>
           </Tab>
           <Tab>
             <HStack>
               {tabIndex <= 2 && <Avatar name="3" bg="gray.400" h="10" w="10" />}
-              {tabIndex > 2 && <CheckCircleIcon color="brand" h="10" w="10" />}
+              {tabIndex > 2 && <CheckCircleIcon color="green" h="10" w="10" />}
               <Heading size="md">Kontakt und Details</Heading>
             </HStack>
           </Tab>
@@ -128,14 +168,30 @@ const CreateInquiry = () => {
               <Heading mt={8} size="lg">
                 Wobei wird Hilfe benötigt? (Mehrfachauswahl möglich)
               </Heading>
-              <CheckboxGroup onChange={value => { setServices(value);}}>
+              <CheckboxGroup
+                onChange={value => {
+                  setServices(value);
+                }}
+              >
                 <Wrap spacing={4}>
-                  <Checkbox size="lg" value="Pflege">Pflege</Checkbox>
-                  <Checkbox size="lg" value="Ernährung">Ernährung</Checkbox>
-                  <Checkbox size="lg" value="Ausscheidung">Ausscheidung</Checkbox>
-                  <Checkbox size="lg" value="Mobilisation">Mobilisation</Checkbox>
-                  <Checkbox size="lg" value="Betreuung">Begleitung/ Betreuung</Checkbox>
-                  <Checkbox size="lg" value="Hauswirtschaft">Hauswirtschaft</Checkbox>
+                  <Checkbox size="lg" value="Pflege">
+                    Pflege
+                  </Checkbox>
+                  <Checkbox size="lg" value="Ernährung">
+                    Ernährung
+                  </Checkbox>
+                  <Checkbox size="lg" value="Ausscheidung">
+                    Ausscheidung
+                  </Checkbox>
+                  <Checkbox size="lg" value="Mobilisation">
+                    Mobilisation
+                  </Checkbox>
+                  <Checkbox size="lg" value="Betreuung">
+                    Begleitung/ Betreuung
+                  </Checkbox>
+                  <Checkbox size="lg" value="Hauswirtschaft">
+                    Hauswirtschaft
+                  </Checkbox>
                 </Wrap>
               </CheckboxGroup>
               <Divider />
@@ -143,7 +199,12 @@ const CreateInquiry = () => {
               <Heading mt={8} size="lg">
                 Liegt eine ärztliche Verordnung vor?
               </Heading>
-              <RadioGroup defaultValue="false" colorScheme="green" onChange={setHasPrescription} value={hasPrescription}>
+              <RadioGroup
+                defaultValue="false"
+                colorScheme="green"
+                onChange={setHasPrescription}
+                value={hasPrescription}
+              >
                 <Wrap spacing={4}>
                   <Radio size="lg" value="true">
                     Ja
@@ -153,13 +214,22 @@ const CreateInquiry = () => {
                   </Radio>
                 </Wrap>
               </RadioGroup>
-              <Textarea placeholder="Verordnungstext" onChange={e => setPrescriptionDesc(e.target.value)} value={prescriptionDesc}/>
+              <Textarea
+                placeholder="Verordnungstext"
+                onChange={e => setPrescriptionDesc(e.target.value)}
+                value={prescriptionDesc}
+              />
               <Divider />
 
               <Heading mt={8} size="lg">
                 Liegt ein Pflegegrad vor?
               </Heading>
-              <RadioGroup defaultValue="null" colorScheme="green" onChange={setLevelOfCare} value={levelOfCare}>
+              <RadioGroup
+                defaultValue="null"
+                colorScheme="green"
+                onChange={setLevelOfCare}
+                value={levelOfCare}
+              >
                 <Wrap spacing={4}>
                   <Radio size="lg" value="1">
                     1
@@ -188,7 +258,6 @@ const CreateInquiry = () => {
               <Button
                 leftIcon={<ArrowForwardIcon />}
                 variant="solid"
-                bg="brand"
                 onClick={() => setTabIndex(tabIndex + 1)}
                 alignSelf="flex-end"
               >
@@ -203,91 +272,169 @@ const CreateInquiry = () => {
               </Heading>
               <CheckboxGroup defaultValue="false" colorScheme="green">
                 <SimpleGrid columns={2} spacing={4}>
-                  <Checkbox size="lg" onChange={value => {
-                    if(!value) setTimesMon(0);
-                    setTimesMonActive(value);
-                  }} value={times_mon_active}>Montag:</Checkbox>
-                  <Select placeholder="Zeitraum auswählen" size="lg" onChange={e => {
-                    if(times_mon_active) setTimesMon(e.target.value);
-                  }} value={times_mon}>
+                  <Checkbox
+                    size="lg"
+                    onChange={value => {
+                      if (!value) setTimesMon(0);
+                      setTimesMonActive(value);
+                    }}
+                    value={times_mon_active}
+                  >
+                    Montag:
+                  </Checkbox>
+                  <Select
+                    placeholder="Zeitraum auswählen"
+                    size="lg"
+                    onChange={e => {
+                      if (times_mon_active) setTimesMon(e.target.value);
+                    }}
+                    value={times_mon}
+                  >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
                     <option value="window2">16 - 18 Uhr</option>
                     <option value="window3">19 - 22 Uhr</option>
                   </Select>
 
-                  <Checkbox size="lg" name="ckb_time_tue" onChange={value => {
-                    if(!value) setTimesTue(0);
-                    setTimesTueActive(value);
-                  }} value={times_tue_active}>Dienstag:</Checkbox>
-                  <Select placeholder="Zeitraum auswählen" size="lg" onChange={e => {
-                    if(times_tue_active) setTimesTue(e.target.value);
-                  }} value={times_tue}>
+                  <Checkbox
+                    size="lg"
+                    name="ckb_time_tue"
+                    onChange={value => {
+                      if (!value) setTimesTue(0);
+                      setTimesTueActive(value);
+                    }}
+                    value={times_tue_active}
+                  >
+                    Dienstag:
+                  </Checkbox>
+                  <Select
+                    placeholder="Zeitraum auswählen"
+                    size="lg"
+                    onChange={e => {
+                      if (times_tue_active) setTimesTue(e.target.value);
+                    }}
+                    value={times_tue}
+                  >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
                     <option value="window2">16 - 18 Uhr</option>
                     <option value="window3">19 - 22 Uhr</option>
                   </Select>
 
-                  <Checkbox size="lg" onChange={value => {
-                    if(!value) setTimesWed(0);
-                    setTimesWedActive(value);
-                  }} value={times_wed_active}>Mittwoch:</Checkbox>
-                  <Select placeholder="Zeitraum auswählen" size="lg" onChange={e => {
-                    if(times_wed_active) setTimesWed(e.target.value);
-                  }} value={times_wed}>
+                  <Checkbox
+                    size="lg"
+                    onChange={value => {
+                      if (!value) setTimesWed(0);
+                      setTimesWedActive(value);
+                    }}
+                    value={times_wed_active}
+                  >
+                    Mittwoch:
+                  </Checkbox>
+                  <Select
+                    placeholder="Zeitraum auswählen"
+                    size="lg"
+                    onChange={e => {
+                      if (times_wed_active) setTimesWed(e.target.value);
+                    }}
+                    value={times_wed}
+                  >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
                     <option value="window2">16 - 18 Uhr</option>
                     <option value="window3">19 - 22 Uhr</option>
                   </Select>
 
-                  <Checkbox size="lg" onChange={value => {
-                    if(!value) setTimesThu(0);
-                    setTimesThuActive(value);
-                  }} value={times_thu_active}>Donnerstag:</Checkbox>
-                  <Select placeholder="Zeitraum auswählen" size="lg" onChange={e => {
-                    if(times_thu_active) setTimesThu(e.target.value);
-                  }} value={times_thu}>
+                  <Checkbox
+                    size="lg"
+                    onChange={value => {
+                      if (!value) setTimesThu(0);
+                      setTimesThuActive(value);
+                    }}
+                    value={times_thu_active}
+                  >
+                    Donnerstag:
+                  </Checkbox>
+                  <Select
+                    placeholder="Zeitraum auswählen"
+                    size="lg"
+                    onChange={e => {
+                      if (times_thu_active) setTimesThu(e.target.value);
+                    }}
+                    value={times_thu}
+                  >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
                     <option value="window2">16 - 18 Uhr</option>
                     <option value="window3">19 - 22 Uhr</option>
                   </Select>
 
-                  <Checkbox size="lg" onChange={value => {
-                    if(!value) setTimesFri(0);
-                    setTimesFriActive(value);
-                  }} value={times_fri_active}>Freitag:</Checkbox>
-                  <Select placeholder="Zeitraum auswählen" size="lg" onChange={e => {
-                    if(times_fri_active) setTimesFri(e.target.value);
-                  }} value={times_fri}>
+                  <Checkbox
+                    size="lg"
+                    onChange={value => {
+                      if (!value) setTimesFri(0);
+                      setTimesFriActive(value);
+                    }}
+                    value={times_fri_active}
+                  >
+                    Freitag:
+                  </Checkbox>
+                  <Select
+                    placeholder="Zeitraum auswählen"
+                    size="lg"
+                    onChange={e => {
+                      if (times_fri_active) setTimesFri(e.target.value);
+                    }}
+                    value={times_fri}
+                  >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
                     <option value="window2">16 - 18 Uhr</option>
                     <option value="window3">19 - 22 Uhr</option>
                   </Select>
 
-                  <Checkbox size="lg" onChange={value => {
-                    if(!value) setTimesSat(0);
-                    setTimesSatActive(value);
-                  }} value={times_sat_active}>Samstag:</Checkbox>
-                  <Select placeholder="Zeitraum auswählen" size="lg" onChange={e => {
-                    if(times_sat_active) setTimesSat(e.target.value);
-                  }} value={times_sat}>
+                  <Checkbox
+                    size="lg"
+                    onChange={value => {
+                      if (!value) setTimesSat(0);
+                      setTimesSatActive(value);
+                    }}
+                    value={times_sat_active}
+                  >
+                    Samstag:
+                  </Checkbox>
+                  <Select
+                    placeholder="Zeitraum auswählen"
+                    size="lg"
+                    onChange={e => {
+                      if (times_sat_active) setTimesSat(e.target.value);
+                    }}
+                    value={times_sat}
+                  >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
                     <option value="window2">16 - 18 Uhr</option>
                     <option value="window3">19 - 22 Uhr</option>
                   </Select>
 
-                  <Checkbox size="lg" onChange={value => {
-                    if(!value) setTimesSun(0);
-                    setTimesSunActive(value);
-                  }} value={times_sun_active}>Sonntag:</Checkbox>
-                  <Select placeholder="Zeitraum auswählen" size="lg" onChange={e => {
-                    if(times_sun_active) setTimesSun(e.target.value);
-                  }} value={times_sun}>
+                  <Checkbox
+                    size="lg"
+                    onChange={value => {
+                      if (!value) setTimesSun(0);
+                      setTimesSunActive(value);
+                    }}
+                    value={times_sun_active}
+                  >
+                    Sonntag:
+                  </Checkbox>
+                  <Select
+                    placeholder="Zeitraum auswählen"
+                    size="lg"
+                    onChange={e => {
+                      if (times_sun_active) setTimesSun(e.target.value);
+                    }}
+                    value={times_sun}
+                  >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
                     <option value="window2">16 - 18 Uhr</option>
@@ -300,7 +447,12 @@ const CreateInquiry = () => {
               <Heading mt={8} size="lg">
                 In welchem Stadtteil wird Hilfe benötigt?
               </Heading>
-              <Select placeholder="Stadtteil auswählen" size="lg" onChange={e => setDistrict(e.target.value)} value={district}>
+              <Select
+                placeholder="Stadtteil auswählen"
+                size="lg"
+                onChange={e => setDistrict(e.target.value)}
+                value={district}
+              >
                 {cityDistricts.map((dist, index, arr) => (
                   <option value={index}>{dist}</option>
                 ))}
@@ -369,7 +521,6 @@ const CreateInquiry = () => {
               <Button
                 leftIcon={<ArrowForwardIcon />}
                 variant="solid"
-                bg="brand"
                 onClick={() => setTabIndex(tabIndex + 1)}
                 alignSelf="flex-end"
               >
@@ -379,7 +530,7 @@ const CreateInquiry = () => {
           </TabPanel>
           <TabPanel>
             <Link as={RouterLink} to="/success" alignSelf="flex-end">
-              <Button leftIcon={<CheckIcon />} variant="solid" bg="brand">
+              <Button leftIcon={<CheckIcon />} variant="solid" onClick={createInquiry_api}>
                 Abschließen
               </Button>
             </Link>

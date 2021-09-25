@@ -10,18 +10,30 @@ const theme = extendTheme(
       heading: 'Lato, sans-serif',
     },
     colors: {
-      brand: '#5A61AE',
+      green: {
+        50: '#dcffec',
+        100: '#afffcf',
+        200: '#7effb1',
+        300: '#4dff94',
+        400: '#21ff76',
+        500: '#0de65d',
+        600: '#00b347',
+        700: '#008032',
+        800: '#004d1d',
+        900: '#001c04',
+      },
     },
-    styles: {
+
+    /*styles: {
       global: props => ({
         body: {
           color: mode('gray.800', 'whiteAlpha.900')(props),
           bg: mode('white', 'gray.800')(props),
         },
       }),
-    },
+    },*/
   },
-  withDefaultColorScheme({colorScheme: 'brand'})
+  withDefaultColorScheme({colorScheme: 'green'})
 );
 
 export default theme;
