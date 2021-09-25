@@ -1,3 +1,4 @@
+from datetime import time
 from typing import List
 
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
@@ -65,3 +66,9 @@ def get_inquiries(db: Session, skip: int = 0, limit: int = 100):
 
 def get_customer(db: Session, email: str):
     return db.query(models.Customer).filter(models.Customer.email == email).first()
+
+
+def get_time(db: Session, weekday: str, time_start: time, time_end: time):
+    return db.query(models.InquiryTime).filter(models.InquiryTime.weekday == weekday,
+                                               models.InquiryTime.time_start == time_start,
+                                               models.InquiryTime.time_end == time_end).first()

@@ -39,8 +39,9 @@ def create_inquiry(inquiry: schemas.InquiryCreate, customer: schemas.CustomerCre
 
     db_times = []
     for time in times:
-        # Todo add check if time already in database
-        db_time = crud.create_time(db=db, time=time)
+        db_time = crud.get_time(db=db, weekday=time.weekday, time_start=time.time_start, time_end=time.time_end)
+        if not db_time:
+            db_time = crud.create_time(db=db, time=time)
         db_times.append(db_time)
 
     crud.create_inquiry(db=db, inquiry=inquiry, customer_id=db_customer.id, services=db_services, times=db_times)
