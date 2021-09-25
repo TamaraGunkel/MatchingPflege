@@ -70,6 +70,7 @@ def inquiry_to_dict(model):
         "contact_opt_in": model.contact_opt_in
     }
 
+
 @app.post("/inquiry")
 def create_inquiry(inquiry: schemas.InquiryCreate, customer: schemas.CustomerCreate,
                    services: List[schemas.ServiceCreate],

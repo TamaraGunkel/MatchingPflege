@@ -8,6 +8,7 @@ import CreateInquiry from './components/CreateInquiry/CreateInquiry';
 import LoginForm from './components/LoginForm/LoginForm';
 import Success from './components/Success/Success';
 import Header from './components/Header/Header';
+import DetailsInquiry from "./components/DetailsInquiry/DetailsInquiry";
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
           </Route>
           <Route path="/inquiries">
             <Inquiries />
+          </Route>
+          <Route path="/detailsInquiry">
+            <DetailsInquiry />
           </Route>
           <Route path="/create-inquiry">
             <CreateInquiry />
