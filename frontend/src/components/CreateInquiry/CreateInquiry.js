@@ -27,8 +27,9 @@ import {
     FormLabel,
     InputGroup,
     InputLeftAddon,
+    Tooltip,
 } from '@chakra-ui/react';
-import {CheckCircleIcon, ArrowForwardIcon, CheckIcon} from '@chakra-ui/icons';
+import {CheckCircleIcon, ArrowForwardIcon, CheckIcon, QuestionIcon} from '@chakra-ui/icons';
 import {Link as RouterLink} from 'react-router-dom';
 
 const CreateInquiry = () => {
@@ -61,6 +62,7 @@ const CreateInquiry = () => {
   const [postal_code, setPostalcode] = React.useState("");
   const [city, setCity] = React.useState("");
 
+  const[accept, setAccept] = React.useState(false);
   const handleTabsChange = index => {
     // Do nothing, we won't allow changing tabs using the tabs itself.
   };
@@ -106,6 +108,8 @@ const CreateInquiry = () => {
         .then(data => console.log(data));
 */
   };
+
+  const alwaysTrue = true;
 
   const cityDistricts = [
     'Albachten (48163)',
@@ -165,9 +169,9 @@ const CreateInquiry = () => {
                <Heading mt={8} size="lg">
                 Datenschutzangaben
               </Heading>
-                <Checkbox onChange={value => {
-                  setServices(value);
-                }} >Ich bin damit einverstanden, dass meine Daten zur Verarbeitung meiner Anfrage gespeichert dürfen.</Checkbox>
+      <Text>Für die Nutzung der von mir ausgewählten Transaktion aus dem Online-Dienstleistungsangebot der Stadt Münster ist die Erhebung und Speicherung von personenbezogenen Daten erforderlich. Detaillierte Informationen über den Umgang mit personenbezogenen Daten sind in der <Link color="teal.500" href="#">Datenschutzerklärung</Link> zu finden</Text>
+                <Checkbox onChange={e => {setAccept(e);
+                }} >Ich habe die Datenschutzerklärung gelesen und nehme diese zur Kenntnis. Ich bin damit einverstanden, dass meine Angaben und Daten elektronisch zu den in der Datenschutzerklärung erläuterten Zwecken erhoben und gespeichert werden.</Checkbox>
                 <Checkbox onChange={value => {
                   setServices(value);
                 }} >Ich bin damit einverstanden, dass meine Daten an Pflegeeinrichtungen und Dienstleister weiter gegeben werden dürfen.</Checkbox>
@@ -203,9 +207,12 @@ const CreateInquiry = () => {
               </CheckboxGroup>
               <Divider />
 
+              <HStack>
               <Heading mt={8} size="lg">
                 Liegt eine ärztliche Verordnung vor?
               </Heading>
+      <Tooltip label="Die Verordnung einer häuslichen Krankenpflege erfolgt in der Regel durch einen Vertragsarzt, z.B. den Hausarzt. Die erste Verordnung ist längstens für 14 Tage möglich, die Folgeverordnung kann auch für einen längeren Zeitraum ausgestellt werden"><QuestionIcon/></Tooltip></HStack>
+
               <RadioGroup
                 defaultValue="false"
                 colorScheme="green"
@@ -263,6 +270,7 @@ const CreateInquiry = () => {
               </RadioGroup>
 
               <Button
+                isDisabled={!accept}
                 leftIcon={<ArrowForwardIcon />}
                 variant="solid"
                 onClick={() => setTabIndex(tabIndex + 1)}

@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # ToDo add credentials to .env 
-SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://user:example@localhost:5432/db"
+SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:postgres@localhost:5432/db"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL

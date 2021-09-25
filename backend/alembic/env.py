@@ -15,7 +15,7 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 sys.path.append(BASE_DIR)
 
 config = context.config
-config.set_main_option("sqlalchemy.url", "postgresql+psycopg2://user:example@localhost:5432/db")
+config.set_main_option("sqlalchemy.url", "postgresql+psycopg2://postgres:postgres@localhost:5432/db")
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
