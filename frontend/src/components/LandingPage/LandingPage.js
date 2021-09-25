@@ -3,8 +3,20 @@ import {Link} from 'react-router-dom';
 import {Box, Heading, Center, LinkOverlay, LinkBox, VStack, HStack} from '@chakra-ui/react';
 import {QuestionIcon} from '@chakra-ui/icons';
 import ChatBot from 'react-simple-chatbot';
-
+import {ThemeProvider} from 'styled-components';
 import BackgroundImage from '../../img/background.jpg';
+
+const theme = {
+  background: '#fff',
+  fontFamily: 'Lato, sans-serif',
+  headerBgColor: '#00b347',
+  headerFontColor: '#fff',
+  headerFontSize: '15px',
+  botBubbleColor: '#00b347',
+  botFontColor: '#fff',
+  userBubbleColor: '#fff',
+  userFontColor: '#000',
+};
 
 const LandingPage = () => {
   const [botOpen, setBotOpen] = React.useState(true);
@@ -66,27 +78,29 @@ const LandingPage = () => {
           </LinkBox>
         </HStack>
       </Center>
-      <ChatBot
-        opened={botOpen}
-        toggleFloating={() => setBotOpen(!botOpen)}
-        headerTitle=""
-        botDelay={750}
-        enableSmoothScroll={true}
-        floatingIcon={<QuestionIcon color="white" w={6} h={6} />}
-        steps={[
-          {
-            id: 'computer-response',
-            message: parseMessage('{previousValue}'),
-            trigger: 'user-input',
-          },
-          {
-            id: 'user-input',
-            user: true,
-            trigger: 'computer-response',
-          },
-        ]}
-        floating={true}
-      />
+      <ThemeProvider theme={theme}>
+        <ChatBot
+          opened={botOpen}
+          toggleFloating={() => setBotOpen(!botOpen)}
+          headerTitle=""
+          botDelay={750}
+          enableSmoothScroll={true}
+          floatingIcon={<QuestionIcon color="white" w={6} h={6} />}
+          steps={[
+            {
+              id: 'computer-response',
+              message: parseMessage('{previousValue}'),
+              trigger: 'user-input',
+            },
+            {
+              id: 'user-input',
+              user: true,
+              trigger: 'computer-response',
+            },
+          ]}
+          floating={true}
+        />
+      </ThemeProvider>
     </Box>
   );
 };
