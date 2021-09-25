@@ -6,11 +6,8 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-from sql_app import crud, models, schemas
-from sql_app.database import SessionLocal, engine
-from sql_app.models import Inquiry as ModelInquiry
-from sql_app.models import Customer as ModelCustomer
-from sql_app.schemas import Inquiry as SchemaInquiry, Address
+
+from datetime import timedelta
 
 models.Base.metadata.create_all(bind=engine)
 
