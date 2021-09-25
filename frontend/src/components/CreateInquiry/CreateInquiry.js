@@ -224,16 +224,6 @@ const CreateInquiry = () => {
               <Heading mt={8} size="lg">
                 Datenschutzangaben
               </Heading>
-              <Checkbox
-                onChange={value => {
-                  setServices(value);
-                }}
-              >
-                Ich bin damit einverstanden, dass meine Daten zur Verarbeitung meiner Anfrage
-                gespeichert dürfen.
-              </Checkbox>
-              <Checkbox
-                onChange={value => {
       <Text>Für die Nutzung der von mir ausgewählten Transaktion aus dem Online-Dienstleistungsangebot der Stadt Münster ist die Erhebung und Speicherung von personenbezogenen Daten erforderlich. Detaillierte Informationen über den Umgang mit personenbezogenen Daten sind in der <Link color="teal.500" href="#">Datenschutzerklärung</Link> zu finden</Text>
                 <Checkbox onChange={e => {setAccept(e);
                 }} >Ich habe die Datenschutzerklärung gelesen und nehme diese zur Kenntnis. Ich bin damit einverstanden, dass meine Angaben und Daten elektronisch zu den in der Datenschutzerklärung erläuterten Zwecken erhoben und gespeichert werden.</Checkbox>
@@ -279,7 +269,7 @@ const CreateInquiry = () => {
               <Heading mt={8} size="lg">
                 Liegt eine ärztliche Verordnung vor?
               </Heading>
-      <Tooltip label="Die Verordnung einer häuslichen Krankenpflege erfolgt in der Regel durch einen Vertragsarzt, z.B. den Hausarzt. Die erste Verordnung ist längstens für 14 Tage möglich, die Folgeverordnung kann auch für einen längeren Zeitraum ausgestellt werden"><QuestionIcon/></Tooltip></HStack>
+                <HStack><Tooltip label="Die Verordnung einer häuslichen Krankenpflege erfolgt in der Regel durch einen Vertragsarzt, z.B. den Hausarzt. Die erste Verordnung ist längstens für 14 Tage möglich, die Folgeverordnung kann auch für einen längeren Zeitraum ausgestellt werden"><QuestionIcon/></Tooltip></HStack>
 
               <RadioGroup
                 defaultValue="false"
