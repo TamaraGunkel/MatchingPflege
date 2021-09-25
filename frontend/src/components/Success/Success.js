@@ -5,7 +5,7 @@ const Success = () => (
   <Center>
     <Container maxW="3xl">
       <VStack p={12} spacing={10}>
-        <CheckCircleIcon w={48} h={48} color="green.400" />
+        <CheckCircleIcon w={48} h={48} color="green.600" />
         <Heading size="2xl">Super, alles fertig!</Heading>
         <Text fontSize="2xl" textAlign="center">
           Die Pflegedienste haben die Anfrage erhalten und werden diese nun auswerten. Sobald ein

@@ -36,7 +36,7 @@ const CreateInquiry = () => {
   const [tabIndex, setTabIndex] = React.useState(0);
   const [services, setServices] = React.useState([]);
   const [hasPrescription, setHasPrescription] = React.useState(0);
-  const [prescriptionDesc, setPrescriptionDesc] = React.useState("");
+  const [prescriptionDesc, setPrescriptionDesc] = React.useState('');
   const [levelOfCare, setLevelOfCare] = React.useState(0);
   const [times_mon, setTimesMon] = React.useState(0);
   const [times_mon_active, setTimesMonActive] = React.useState(0);
@@ -53,14 +53,14 @@ const CreateInquiry = () => {
   const [times_sun, setTimesSun] = React.useState(0);
   const [times_sun_active, setTimesSunActive] = React.useState(0);
   const [district, setDistrict] = React.useState(0);
-  const [first_name, setFirstName] = React.useState("");
-  const [last_name, setLastName] = React.useState("");
-  const [telephone, setPhonenumber] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [street, setStreet] = React.useState("");
-  const [street_number, setStreetnumber] = React.useState("");
-  const [postal_code, setPostalcode] = React.useState("");
-  const [city, setCity] = React.useState("");
+  const [first_name, setFirstName] = React.useState('');
+  const [last_name, setLastName] = React.useState('');
+  const [telephone, setPhonenumber] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [street, setStreet] = React.useState('');
+  const [street_number, setStreetnumber] = React.useState('');
+  const [postal_code, setPostalcode] = React.useState('');
+  const [city, setCity] = React.useState('');
 
   const[accept, setAccept] = React.useState(false);
   const handleTabsChange = index => {
@@ -69,7 +69,49 @@ const CreateInquiry = () => {
 
   const createInquiry_api = () => {
     let service_objs = services.map(x => {
-      return {name: x}
+      return {name: x};
+    });
+
+    let all_times = [times_mon, times_tue, times_wed, times_thu, times_fri, times_sat, times_sun];
+    let all_times_active = [
+      times_mon_active,
+      times_tue_active,
+      times_wed_active,
+      times_thu_active,
+      times_fri_active,
+      times_sat_active,
+      times_sun_active,
+    ];
+    let weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    let times_objs = [];
+
+    all_times.forEach(function(value, i) {
+      if (all_times_active[i]) {
+        times_objs.push({
+          weekday: weekdays[i],
+          time_start: '',
+          time_end: '',
+        });
+
+        switch (value) {
+          case 'window0':
+            times_objs[times_objs.length - 1].time_start = '07:00';
+            times_objs[times_objs.length - 1].time_end = '09:00';
+            break;
+          case 'window1':
+            times_objs[times_objs.length - 1].time_start = '10:00';
+            times_objs[times_objs.length - 1].time_end = '13:00';
+            break;
+          case 'window2':
+            times_objs[times_objs.length - 1].time_start = '16:00';
+            times_objs[times_objs.length - 1].time_end = '18:00';
+            break;
+          case 'window3':
+            times_objs[times_objs.length - 1].time_start = '19:00';
+            times_objs[times_objs.length - 1].time_end = '22:00';
+            break;
+        }
+      }
     });
 
     const requestOptions = {
@@ -78,38 +120,34 @@ const CreateInquiry = () => {
       body: JSON.stringify({
         inquiry: {
           address: {
-            street: '',
-            number: '',
-            postal_code: '',
-            city: '',
-            district: '',
+            street: street,
+            number: street_number,
+            postal_code: postal_code,
+            city: city,
+            district: district,
           },
           level_of_care: levelOfCare,
           duration: 0,
-          hiring_start: '',
-          hiring_end: '',
-          description: '',
+          hiring_start: '2021-09-25T09:44:37.514Z',
+          hiring_end: '2021-09-25T09:44:37.514Z',
+          description: prescriptionDesc,
           necessary_expertise: [],
           service_categories: [],
           contact_opt_in: true,
         },
         customer: {
-          last_name: '',
-          first_name: '',
-          telephone: '',
-          email: '',
+          last_name: last_name,
+          first_name: first_name,
+          telephone: telephone,
+          email: email,
         },
         services: service_objs,
+        times: times_objs,
       }),
     };
 
-    /*  fetch('https://localhost:8000/inquiry', requestOptions)
-        .then(response => response.json())
-        .then(data => console.log(data));
-*/
+    fetch('http://localhost:8000/inquiry', requestOptions).then(response => console.log(response));
   };
-
-  const alwaysTrue = true;
 
   const cityDistricts = [
     'Albachten (48163)',
@@ -136,6 +174,16 @@ const CreateInquiry = () => {
     'Wolbeck (48155, 48167)',
   ];
 
+  const renderTime = (time_window) => {
+    switch(time_window) {
+      case 'window0': return '07:00 - 09:00 Uhr';
+      case 'window1': return '10:00 - 13:00 Uhr';
+      case 'window2': return '16:00 - 18:00 Uhr';
+      case 'window3': return '19:00 - 22:00 Uhr';
+      default: return 'Ungültig';
+    }
+  }
+
   return (
     <Container as="main" maxW="3xl" rounded="md" shadow="xs" p={10}>
       <Tabs isFitted="true" variant="unstyled" index={tabIndex} onChange={handleTabsChange}>
@@ -143,22 +191,29 @@ const CreateInquiry = () => {
           <Tab>
             <HStack>
               {tabIndex === 0 && <Avatar name="1" bg="gray.400" h="10" w="10" />}
-              {tabIndex !== 0 && <CheckCircleIcon color="green" h="10" w="10" />}
+              {tabIndex !== 0 && <CheckCircleIcon color="green.600" h="10" w="10" />}
               <Heading size="md">Bedürfnisse angeben</Heading>
             </HStack>
           </Tab>
           <Tab>
             <HStack>
               {tabIndex <= 1 && <Avatar name="2" bg="gray.400" h="10" w="10" />}
-              {tabIndex > 1 && <CheckCircleIcon color="green" h="10" w="10" />}
+              {tabIndex > 1 && <CheckCircleIcon color="green.600" h="10" w="10" />}
               <Heading size="md">Wann und Wo</Heading>
             </HStack>
           </Tab>
           <Tab>
             <HStack>
               {tabIndex <= 2 && <Avatar name="3" bg="gray.400" h="10" w="10" />}
-              {tabIndex > 2 && <CheckCircleIcon color="green" h="10" w="10" />}
+              {tabIndex > 2 && <CheckCircleIcon color="green.600" h="10" w="10" />}
               <Heading size="md">Kontakt und Details</Heading>
+            </HStack>
+          </Tab>
+          <Tab>
+            <HStack>
+              {tabIndex <= 3 && <Avatar name="4" bg="gray.400" h="10" w="10" />}
+              {tabIndex > 3 && <CheckCircleIcon color="green" h="10" w="10" />}
+              <Heading size="md">Zusammenfassung</Heading>
             </HStack>
           </Tab>
         </TabList>
@@ -166,16 +221,30 @@ const CreateInquiry = () => {
         <TabPanels>
           <TabPanel>
             <VStack spacing={8}>
-               <Heading mt={8} size="lg">
+              <Heading mt={8} size="lg">
                 Datenschutzangaben
               </Heading>
+              <Checkbox
+                onChange={value => {
+                  setServices(value);
+                }}
+              >
+                Ich bin damit einverstanden, dass meine Daten zur Verarbeitung meiner Anfrage
+                gespeichert dürfen.
+              </Checkbox>
+              <Checkbox
+                onChange={value => {
       <Text>Für die Nutzung der von mir ausgewählten Transaktion aus dem Online-Dienstleistungsangebot der Stadt Münster ist die Erhebung und Speicherung von personenbezogenen Daten erforderlich. Detaillierte Informationen über den Umgang mit personenbezogenen Daten sind in der <Link color="teal.500" href="#">Datenschutzerklärung</Link> zu finden</Text>
                 <Checkbox onChange={e => {setAccept(e);
                 }} >Ich habe die Datenschutzerklärung gelesen und nehme diese zur Kenntnis. Ich bin damit einverstanden, dass meine Angaben und Daten elektronisch zu den in der Datenschutzerklärung erläuterten Zwecken erhoben und gespeichert werden.</Checkbox>
                 <Checkbox onChange={value => {
                   setServices(value);
-                }} >Ich bin damit einverstanden, dass meine Daten an Pflegeeinrichtungen und Dienstleister weiter gegeben werden dürfen.</Checkbox>
-                <Divider />
+                }}
+              >
+                Ich bin damit einverstanden, dass meine Daten an Pflegeeinrichtungen und
+                Dienstleister weiter gegeben werden dürfen.
+              </Checkbox>
+              <Divider />
               <Heading mt={8} size="lg">
                 Wobei wird Hilfe benötigt? (Mehrfachauswahl möglich)
               </Heading>
@@ -207,7 +276,6 @@ const CreateInquiry = () => {
               </CheckboxGroup>
               <Divider />
 
-              <HStack>
               <Heading mt={8} size="lg">
                 Liegt eine ärztliche Verordnung vor?
               </Heading>
@@ -272,7 +340,8 @@ const CreateInquiry = () => {
               <Button
                 isDisabled={!accept}
                 leftIcon={<ArrowForwardIcon />}
-                variant="solid"
+                variant="outline"
+                color="green.600"
                 onClick={() => setTabIndex(tabIndex + 1)}
                 alignSelf="flex-end"
               >
@@ -291,9 +360,8 @@ const CreateInquiry = () => {
                     size="lg"
                     onChange={value => {
                       if (!value) setTimesMon(0);
-                      setTimesMonActive(value);
+                      setTimesMonActive(value.target.checked);
                     }}
-                    value={times_mon_active}
                   >
                     Montag:
                   </Checkbox>
@@ -303,7 +371,6 @@ const CreateInquiry = () => {
                     onChange={e => {
                       if (times_mon_active) setTimesMon(e.target.value);
                     }}
-                    value={times_mon}
                   >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
@@ -316,9 +383,8 @@ const CreateInquiry = () => {
                     name="ckb_time_tue"
                     onChange={value => {
                       if (!value) setTimesTue(0);
-                      setTimesTueActive(value);
+                      setTimesTueActive(value.target.checked);
                     }}
-                    value={times_tue_active}
                   >
                     Dienstag:
                   </Checkbox>
@@ -328,7 +394,6 @@ const CreateInquiry = () => {
                     onChange={e => {
                       if (times_tue_active) setTimesTue(e.target.value);
                     }}
-                    value={times_tue}
                   >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
@@ -340,9 +405,8 @@ const CreateInquiry = () => {
                     size="lg"
                     onChange={value => {
                       if (!value) setTimesWed(0);
-                      setTimesWedActive(value);
+                      setTimesWedActive(value.target.checked);
                     }}
-                    value={times_wed_active}
                   >
                     Mittwoch:
                   </Checkbox>
@@ -352,7 +416,6 @@ const CreateInquiry = () => {
                     onChange={e => {
                       if (times_wed_active) setTimesWed(e.target.value);
                     }}
-                    value={times_wed}
                   >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
@@ -364,9 +427,8 @@ const CreateInquiry = () => {
                     size="lg"
                     onChange={value => {
                       if (!value) setTimesThu(0);
-                      setTimesThuActive(value);
+                      setTimesThuActive(value.target.checked);
                     }}
-                    value={times_thu_active}
                   >
                     Donnerstag:
                   </Checkbox>
@@ -376,7 +438,6 @@ const CreateInquiry = () => {
                     onChange={e => {
                       if (times_thu_active) setTimesThu(e.target.value);
                     }}
-                    value={times_thu}
                   >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
@@ -388,9 +449,8 @@ const CreateInquiry = () => {
                     size="lg"
                     onChange={value => {
                       if (!value) setTimesFri(0);
-                      setTimesFriActive(value);
+                      setTimesFriActive(value.target.checked);
                     }}
-                    value={times_fri_active}
                   >
                     Freitag:
                   </Checkbox>
@@ -400,7 +460,6 @@ const CreateInquiry = () => {
                     onChange={e => {
                       if (times_fri_active) setTimesFri(e.target.value);
                     }}
-                    value={times_fri}
                   >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
@@ -412,9 +471,8 @@ const CreateInquiry = () => {
                     size="lg"
                     onChange={value => {
                       if (!value) setTimesSat(0);
-                      setTimesSatActive(value);
+                      setTimesSatActive(value.target.checked);
                     }}
-                    value={times_sat_active}
                   >
                     Samstag:
                   </Checkbox>
@@ -436,9 +494,8 @@ const CreateInquiry = () => {
                     size="lg"
                     onChange={value => {
                       if (!value) setTimesSun(0);
-                      setTimesSunActive(value);
+                      setTimesSunActive(value.target.checked);
                     }}
-                    value={times_sun_active}
                   >
                     Sonntag:
                   </Checkbox>
@@ -469,72 +526,16 @@ const CreateInquiry = () => {
                 value={district}
               >
                 {cityDistricts.map((dist, index, arr) => (
-                  <option value={index}>{dist}</option>
+                  <option value={index} key={index}>
+                    {dist}
+                  </option>
                 ))}
               </Select>
 
               <Button
                 leftIcon={<ArrowForwardIcon />}
-                variant="solid"
-                onClick={() => setTabIndex(tabIndex + 1)}
-                alignSelf="flex-end"
-              >
-                Weiter
-              </Button>
-            </VStack>
-          </TabPanel>
-                     <TabPanel>
-            <VStack spacing={8}>
-              <Heading mt={8} size="lg">
-                Kontakt und Details
-              </Heading>
-
-            <FormControl id="first_name" isRequired>
-                <FormLabel>Vorname</FormLabel>
-                <Input placeholder="First name" onChange={e => setFirstName(e.target.value)} value={first_name}/>
-            </FormControl>
-
-            <FormControl id="last_name" isRequired>
-                <FormLabel>Nachname</FormLabel>
-                <Input placeholder="Last name" onChange={e => setLastName(e.target.value)} value={last_name}/>
-            </FormControl>
-
-            <FormControl id="telephone" isRequired>
-                <FormLabel>Telefonnummer</FormLabel>
-                <InputGroup>
-                    <InputLeftAddon children="+49" />
-                    <Input type="tel" placeholder="12345" onChange={e => setPhonenumber(e.target.value)} value={telephone}/>
-                  </InputGroup>
-            </FormControl>
-
-            <FormControl id="email" isRequired>
-                <FormLabel>Email</FormLabel>
-                <Input placeholder="user@test.de" onChange={e => setEmail(e.target.value)} value={email}/>
-            </FormControl>
-
-            <FormControl id="street">
-                <FormLabel>Straße</FormLabel>
-                <Input placeholder="Straße" onChange={e => setStreet(e.target.value)} value={street}/>
-            </FormControl>
-
-            <FormControl id="street_number">
-                <FormLabel>Hausnummer</FormLabel>
-                <Input placeholder="Hausnummer" onChange={e => setStreetnumber(e.target.value)} value={street_number}/>
-            </FormControl>
-
-            <FormControl id="postal_code">
-                <FormLabel>Postleitzahl</FormLabel>
-                <Input placeholder="Postleitzahl" onChange={e => setPostalcode(e.target.value)} value={postal_code}/>
-            </FormControl>
-
-            <FormControl id="city">
-                <FormLabel>Stadt</FormLabel>
-                <Input placeholder="Münster" onChange={e => setCity(e.target.value)} value={city}/>
-            </FormControl>
-
-              <Button
-                leftIcon={<ArrowForwardIcon />}
-                variant="solid"
+                variant="outline"
+                color="green.600"
                 onClick={() => setTabIndex(tabIndex + 1)}
                 alignSelf="flex-end"
               >
@@ -543,8 +544,147 @@ const CreateInquiry = () => {
             </VStack>
           </TabPanel>
           <TabPanel>
+            <VStack spacing={8}>
+              <Heading mt={8} size="lg">
+                Kontakt und Details
+              </Heading>
+
+              <FormControl id="first_name" isRequired>
+                <FormLabel>Vorname</FormLabel>
+                <Input
+                  placeholder="First name"
+                  onChange={e => setFirstName(e.target.value)}
+                  value={first_name}
+                />
+              </FormControl>
+
+              <FormControl id="last_name" isRequired>
+                <FormLabel>Nachname</FormLabel>
+                <Input
+                  placeholder="Last name"
+                  onChange={e => setLastName(e.target.value)}
+                  value={last_name}
+                />
+              </FormControl>
+
+              <FormControl id="telephone" isRequired>
+                <FormLabel>Telefonnummer</FormLabel>
+                <InputGroup>
+                  <InputLeftAddon children="+49" />
+                  <Input
+                    type="tel"
+                    placeholder="12345"
+                    onChange={e => setPhonenumber(e.target.value)}
+                    value={telephone}
+                  />
+                </InputGroup>
+              </FormControl>
+
+              <FormControl id="email" isRequired>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  placeholder="user@test.de"
+                  onChange={e => setEmail(e.target.value)}
+                  value={email}
+                />
+              </FormControl>
+
+              <FormControl id="street">
+                <FormLabel>Straße</FormLabel>
+                <Input
+                  placeholder="Straße"
+                  onChange={e => setStreet(e.target.value)}
+                  value={street}
+                />
+              </FormControl>
+
+              <FormControl id="street_number">
+                <FormLabel>Hausnummer</FormLabel>
+                <Input
+                  placeholder="Hausnummer"
+                  onChange={e => setStreetnumber(e.target.value)}
+                  value={street_number}
+                />
+              </FormControl>
+
+              <FormControl id="postal_code">
+                <FormLabel>Postleitzahl</FormLabel>
+                <Input
+                  placeholder="Postleitzahl"
+                  onChange={e => setPostalcode(e.target.value)}
+                  value={postal_code}
+                />
+              </FormControl>
+
+              <FormControl id="city">
+                <FormLabel>Stadt</FormLabel>
+                <Input placeholder="Münster" onChange={e => setCity(e.target.value)} value={city} />
+              </FormControl>
+
+              <Button
+                leftIcon={<ArrowForwardIcon />}
+                variant="outline"
+                color="green.600"
+                onClick={() => setTabIndex(tabIndex + 1)}
+                alignSelf="flex-end"
+              >
+                Weiter
+              </Button>
+            </VStack>
+          </TabPanel>
+          <TabPanel>
+            <Heading mt={8} size="lg">
+              Zusammenfassung
+            </Heading>
+            <Heading mt={8} size="md">
+              Bedürfnisse
+            </Heading>
+
+            <Text mt={4}><strong>Wobei wird Hilfe benötigt?</strong></Text>
+            <p>{services}</p>
+            <Text mt={4}><strong>Liegt eine ärztliche Verordnung vor?</strong></Text>
+            <p>{hasPrescription ? 'Ja': 'Nein'}</p>
+            <p>{hasPrescription ? prescriptionDesc: ''}</p>
+            <Text mt={4}><strong>Liegt ein Pflegegrad vor?</strong></Text>
+            <p>{levelOfCare}</p>
+
+            <Heading mt={8} size="md">
+              Wann und Wo
+            </Heading>
+            <Text mt={4}><strong>An welchen Tagen und zu welcher Uhrzeit wird Hilfe benötigt?</strong></Text>
+            <p>{times_mon_active ? 'Montag: ' + renderTime(times_mon) : ''}</p>
+            <p>{times_tue_active ? 'Dienstag: ' + renderTime(times_tue) : ''}</p>
+            <p>{times_wed_active ? 'Mittwoch: ' + renderTime(times_wed) : ''}</p>
+            <p>{times_thu_active ? 'Donnerstag: ' + renderTime(times_thu) : ''}</p>
+            <p>{times_fri_active ? 'Freitag: ' + renderTime(times_fri) : ''}</p>
+            <p>{times_sat_active ? 'Samstag: ' + renderTime(times_sat) : ''}</p>
+            <p>{times_sun_active ? 'Sonntag: ' + renderTime(times_sun) : ''}</p>
+
+            <Text mt={4}><strong>In welchem Stadtteil wird Hilfe benötigt?</strong></Text>
+            <p>{cityDistricts[district]}</p>
+
+            <Heading mt={8} size="md">
+              Kontaktinformationen
+            </Heading>
+            <Text mt={4}><strong>Name</strong></Text>
+            <p>{first_name} {last_name}</p>
+            <Text mt={4}><strong>Telefonnummer</strong></Text>
+            <p>{telephone}</p>
+            <Text mt={4}><strong>Email</strong></Text>
+            <p>{email}</p>
+            <Text mt={4}><strong>Straße und Hausnummer:</strong></Text>
+            <p>{street} {street_number}</p>
+            <Text mt={4}><strong>Postleitzahl und Stadt:</strong></Text>
+            <p>{postal_code} {city}</p>
+
             <Link as={RouterLink} to="/success" alignSelf="flex-end">
-              <Button leftIcon={<CheckIcon />} variant="solid" onClick={createInquiry_api}>
+              <Button
+                  mt={8}
+                leftIcon={<CheckIcon />}
+                variant="outline"
+                color="green.600"
+                onClick={createInquiry_api}
+              >
                 Abschließen
               </Button>
             </Link>
