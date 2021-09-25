@@ -37,23 +37,24 @@ def get_db():
 
 
 def inquiry_to_schema(model):
-    return SchemaInquiry(
-        id = model.id,
-        address = Address(
-             street = model.address_street,
-        #     number = model.address_number,
-        #     postal_code = model.address_postal_code,
-        #     city = model.address_city,
-        #     district = model.address_district
-        ),
-        level_of_care = model.level_of_care,
-        duration = model.duration_in_minutes,
-        hiring_start = model.hiring_start,
-        hiring_end = model.hiring_end,
-        description = model.description,
-        necessary_expertise = [model.necessary_expertise],
-        contact_opt_in = model.contact_opt_in
-        ) 
+def inquiry_to_dict(model):
+    return {
+        "id": model.id,
+        "address": {
+            "street": model.address_street,
+            "number": model.address_number,
+            "postal_code": model.address_postal_code,
+            "city": model.address_city,
+            "district": model.address_district
+        },
+        "level_of_care": model.level_of_care,
+        "duration": model.duration_in_minutes,
+        "hiring_start": model.hiring_start,
+        "hiring_end": model.hiring_end,
+        "description": model.description,
+        "necessary_expertise": [model.necessary_expertise],
+        "contact_opt_in": model.contact_opt_in
+    }
 
 @app.post("/inquiry/")
 def create_inquiry(inquiry: schemas.InquiryCreate, customer: schemas.CustomerCreate,
