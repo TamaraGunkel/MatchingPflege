@@ -33,9 +33,19 @@ const LandingPage = () => {
       bgBlendMode="overlay"
       bgColor="blackAlpha.400"
     >
-      <VStack p={6} spacing={6}>
+      <VStack p={6}>
         <Heading as="h1" size="4xl" color="white" textShadow="2px 2px 8px black">
           Willkommen Zuhause!
+        </Heading>
+        <Heading
+          pt={5}
+          size="xl"
+          color="white"
+          textShadow="2px 2px 8px black"
+          maxW="4xl"
+          textAlign="center"
+        >
+          Finde schnell Hilfe für die Aufgaben des Alltags.
         </Heading>
         <Heading
           size="xl"
@@ -44,25 +54,11 @@ const LandingPage = () => {
           maxW="4xl"
           textAlign="center"
         >
-          Finde schnell Hilfe für die Aufgaben des Alltags. Wähle einfach aus, wobei du Hilfe
-          benötigst.
+          Wähle einfach aus, wobei du Hilfe benötigst.
         </Heading>
       </VStack>
       <Center>
         <HStack spacing={6}>
-          <LinkBox>
-            <Link to="/create-inquiry">
-              <LinkOverlay>
-                <Box height="auto" p="16" bg="green.600" textColor="white" rounded="md">
-                  <Center>
-                    <Heading centerContent size="lg">
-                      Hilfe für Pflege erhalten
-                    </Heading>
-                  </Center>
-                </Box>
-              </LinkOverlay>
-            </Link>
-          </LinkBox>
           <LinkBox>
             <Link to="#">
               <LinkOverlay>
@@ -70,6 +66,19 @@ const LandingPage = () => {
                   <Center>
                     <Heading centerContent size="lg">
                       Hilfe im Haushalt erhalten
+                    </Heading>
+                  </Center>
+                </Box>
+              </LinkOverlay>
+            </Link>
+          </LinkBox>
+          <LinkBox>
+            <Link to="/create-inquiry">
+              <LinkOverlay>
+                <Box height="auto" p="16" bg="green.600" textColor="white" rounded="md">
+                  <Center>
+                    <Heading centerContent size="lg">
+                      Hilfe für Pflege erhalten
                     </Heading>
                   </Center>
                 </Box>
