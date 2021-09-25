@@ -35,7 +35,7 @@ const CreateInquiry = () => {
   const [tabIndex, setTabIndex] = React.useState(0);
   const [services, setServices] = React.useState([]);
   const [hasPrescription, setHasPrescription] = React.useState(0);
-  const [prescriptionDesc, setPrescriptionDesc] = React.useState("");
+  const [prescriptionDesc, setPrescriptionDesc] = React.useState('');
   const [levelOfCare, setLevelOfCare] = React.useState(0);
   const [times_mon, setTimesMon] = React.useState(0);
   const [times_mon_active, setTimesMonActive] = React.useState(0);
@@ -52,14 +52,14 @@ const CreateInquiry = () => {
   const [times_sun, setTimesSun] = React.useState(0);
   const [times_sun_active, setTimesSunActive] = React.useState(0);
   const [district, setDistrict] = React.useState(0);
-  const [first_name, setFirstName] = React.useState("");
-  const [last_name, setLastName] = React.useState("");
-  const [telephone, setPhonenumber] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [street, setStreet] = React.useState("");
-  const [street_number, setStreetnumber] = React.useState("");
-  const [postal_code, setPostalcode] = React.useState("");
-  const [city, setCity] = React.useState("");
+  const [first_name, setFirstName] = React.useState('');
+  const [last_name, setLastName] = React.useState('');
+  const [telephone, setPhonenumber] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [street, setStreet] = React.useState('');
+  const [street_number, setStreetnumber] = React.useState('');
+  const [postal_code, setPostalcode] = React.useState('');
+  const [city, setCity] = React.useState('');
 
   const handleTabsChange = index => {
     // Do nothing, we won't allow changing tabs using the tabs itself.
@@ -67,39 +67,46 @@ const CreateInquiry = () => {
 
   const createInquiry_api = () => {
     let service_objs = services.map(x => {
-      return {name: x}
+      return {name: x};
     });
 
     let all_times = [times_mon, times_tue, times_wed, times_thu, times_fri, times_sat, times_sun];
-    let all_times_active = [times_mon_active, times_tue_active, times_wed_active, times_thu_active,
-      times_fri_active, times_sat_active, times_sun_active];
+    let all_times_active = [
+      times_mon_active,
+      times_tue_active,
+      times_wed_active,
+      times_thu_active,
+      times_fri_active,
+      times_sat_active,
+      times_sun_active,
+    ];
     let weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     let times_objs = [];
 
-    all_times.forEach(function (value, i) {
+    all_times.forEach(function(value, i) {
       if (all_times_active[i]) {
         times_objs.push({
           weekday: weekdays[i],
-          time_start: "",
-          time_end: ""
+          time_start: '',
+          time_end: '',
         });
 
         switch (value) {
           case 'window0':
-            times_objs[times_objs.length-1].time_start = '07:00';
-            times_objs[times_objs.length-1].time_end = '09:00';
+            times_objs[times_objs.length - 1].time_start = '07:00';
+            times_objs[times_objs.length - 1].time_end = '09:00';
             break;
           case 'window1':
-            times_objs[times_objs.length-1].time_start = '10:00';
-            times_objs[times_objs.length-1].time_end = '13:00';
+            times_objs[times_objs.length - 1].time_start = '10:00';
+            times_objs[times_objs.length - 1].time_end = '13:00';
             break;
           case 'window2':
-            times_objs[times_objs.length-1].time_start = '16:00';
-            times_objs[times_objs.length-1].time_end = '18:00';
+            times_objs[times_objs.length - 1].time_start = '16:00';
+            times_objs[times_objs.length - 1].time_end = '18:00';
             break;
           case 'window3':
-            times_objs[times_objs.length-1].time_start = '19:00';
-            times_objs[times_objs.length-1].time_end = '22:00';
+            times_objs[times_objs.length - 1].time_start = '19:00';
+            times_objs[times_objs.length - 1].time_end = '22:00';
             break;
         }
       }
@@ -119,8 +126,8 @@ const CreateInquiry = () => {
           },
           level_of_care: levelOfCare,
           duration: 0,
-          hiring_start: "2021-09-25T09:44:37.514Z",
-          hiring_end: "2021-09-25T09:44:37.514Z",
+          hiring_start: '2021-09-25T09:44:37.514Z',
+          hiring_end: '2021-09-25T09:44:37.514Z',
           description: prescriptionDesc,
           necessary_expertise: [],
           service_categories: [],
@@ -133,12 +140,11 @@ const CreateInquiry = () => {
           email: email,
         },
         services: service_objs,
-        times: times_objs
+        times: times_objs,
       }),
     };
 
-    fetch('http://localhost:8000/inquiry', requestOptions)
-        .then(response => console.log(response));
+    fetch('http://localhost:8000/inquiry', requestOptions).then(response => console.log(response));
   };
 
   const cityDistricts = [
@@ -183,21 +189,21 @@ const CreateInquiry = () => {
           <Tab>
             <HStack>
               {tabIndex === 0 && <Avatar name="1" bg="gray.400" h="10" w="10" />}
-              {tabIndex !== 0 && <CheckCircleIcon color="green" h="10" w="10" />}
+              {tabIndex !== 0 && <CheckCircleIcon color="green.600" h="10" w="10" />}
               <Heading size="md">Bedürfnisse angeben</Heading>
             </HStack>
           </Tab>
           <Tab>
             <HStack>
               {tabIndex <= 1 && <Avatar name="2" bg="gray.400" h="10" w="10" />}
-              {tabIndex > 1 && <CheckCircleIcon color="green" h="10" w="10" />}
+              {tabIndex > 1 && <CheckCircleIcon color="green.600" h="10" w="10" />}
               <Heading size="md">Wann und Wo</Heading>
             </HStack>
           </Tab>
           <Tab>
             <HStack>
               {tabIndex <= 2 && <Avatar name="3" bg="gray.400" h="10" w="10" />}
-              {tabIndex > 2 && <CheckCircleIcon color="green" h="10" w="10" />}
+              {tabIndex > 2 && <CheckCircleIcon color="green.600" h="10" w="10" />}
               <Heading size="md">Kontakt und Details</Heading>
             </HStack>
           </Tab>
@@ -213,16 +219,26 @@ const CreateInquiry = () => {
         <TabPanels>
           <TabPanel>
             <VStack spacing={8}>
-               <Heading mt={8} size="lg">
+              <Heading mt={8} size="lg">
                 Datenschutzangaben
               </Heading>
-                <Checkbox onChange={value => {
+              <Checkbox
+                onChange={value => {
                   setServices(value);
-                }} >Ich bin damit einverstanden, dass meine Daten zur Verarbeitung meiner Anfrage gespeichert dürfen.</Checkbox>
-                <Checkbox onChange={value => {
+                }}
+              >
+                Ich bin damit einverstanden, dass meine Daten zur Verarbeitung meiner Anfrage
+                gespeichert dürfen.
+              </Checkbox>
+              <Checkbox
+                onChange={value => {
                   setServices(value);
-                }} >Ich bin damit einverstanden, dass meine Daten an Pflegeeinrichtungen und Dienstleister weiter gegeben werden dürfen.</Checkbox>
-                <Divider />
+                }}
+              >
+                Ich bin damit einverstanden, dass meine Daten an Pflegeeinrichtungen und
+                Dienstleister weiter gegeben werden dürfen.
+              </Checkbox>
+              <Divider />
               <Heading mt={8} size="lg">
                 Wobei wird Hilfe benötigt? (Mehrfachauswahl möglich)
               </Heading>
@@ -315,7 +331,8 @@ const CreateInquiry = () => {
 
               <Button
                 leftIcon={<ArrowForwardIcon />}
-                variant="solid"
+                variant="outline"
+                color="green.600"
                 onClick={() => setTabIndex(tabIndex + 1)}
                 alignSelf="flex-end"
               >
@@ -500,13 +517,16 @@ const CreateInquiry = () => {
                 value={district}
               >
                 {cityDistricts.map((dist, index, arr) => (
-                  <option value={index} key={index}>{dist}</option>
+                  <option value={index} key={index}>
+                    {dist}
+                  </option>
                 ))}
               </Select>
 
               <Button
                 leftIcon={<ArrowForwardIcon />}
-                variant="solid"
+                variant="outline"
+                color="green.600"
                 onClick={() => setTabIndex(tabIndex + 1)}
                 alignSelf="flex-end"
               >
@@ -520,52 +540,82 @@ const CreateInquiry = () => {
                 Kontakt und Details
               </Heading>
 
-            <FormControl id="first_name" isRequired>
+              <FormControl id="first_name" isRequired>
                 <FormLabel>Vorname</FormLabel>
-                <Input placeholder="First name" onChange={e => setFirstName(e.target.value)} value={first_name}/>
-            </FormControl>
+                <Input
+                  placeholder="First name"
+                  onChange={e => setFirstName(e.target.value)}
+                  value={first_name}
+                />
+              </FormControl>
 
-            <FormControl id="last_name" isRequired>
+              <FormControl id="last_name" isRequired>
                 <FormLabel>Nachname</FormLabel>
-                <Input placeholder="Last name" onChange={e => setLastName(e.target.value)} value={last_name}/>
-            </FormControl>
+                <Input
+                  placeholder="Last name"
+                  onChange={e => setLastName(e.target.value)}
+                  value={last_name}
+                />
+              </FormControl>
 
-            <FormControl id="telephone" isRequired>
+              <FormControl id="telephone" isRequired>
                 <FormLabel>Telefonnummer</FormLabel>
                 <InputGroup>
-                    <InputLeftAddon children="+49" />
-                    <Input type="tel" placeholder="12345" onChange={e => setPhonenumber(e.target.value)} value={telephone}/>
-                  </InputGroup>
-            </FormControl>
+                  <InputLeftAddon children="+49" />
+                  <Input
+                    type="tel"
+                    placeholder="12345"
+                    onChange={e => setPhonenumber(e.target.value)}
+                    value={telephone}
+                  />
+                </InputGroup>
+              </FormControl>
 
-            <FormControl id="email" isRequired>
+              <FormControl id="email" isRequired>
                 <FormLabel>Email</FormLabel>
-                <Input placeholder="user@test.de" onChange={e => setEmail(e.target.value)} value={email}/>
-            </FormControl>
+                <Input
+                  placeholder="user@test.de"
+                  onChange={e => setEmail(e.target.value)}
+                  value={email}
+                />
+              </FormControl>
 
-            <FormControl id="street">
+              <FormControl id="street">
                 <FormLabel>Straße</FormLabel>
-                <Input placeholder="Straße" onChange={e => setStreet(e.target.value)} value={street}/>
-            </FormControl>
+                <Input
+                  placeholder="Straße"
+                  onChange={e => setStreet(e.target.value)}
+                  value={street}
+                />
+              </FormControl>
 
-            <FormControl id="street_number">
+              <FormControl id="street_number">
                 <FormLabel>Hausnummer</FormLabel>
-                <Input placeholder="Hausnummer" onChange={e => setStreetnumber(e.target.value)} value={street_number}/>
-            </FormControl>
+                <Input
+                  placeholder="Hausnummer"
+                  onChange={e => setStreetnumber(e.target.value)}
+                  value={street_number}
+                />
+              </FormControl>
 
-            <FormControl id="postal_code">
+              <FormControl id="postal_code">
                 <FormLabel>Postleitzahl</FormLabel>
-                <Input placeholder="Postleitzahl" onChange={e => setPostalcode(e.target.value)} value={postal_code}/>
-            </FormControl>
+                <Input
+                  placeholder="Postleitzahl"
+                  onChange={e => setPostalcode(e.target.value)}
+                  value={postal_code}
+                />
+              </FormControl>
 
-            <FormControl id="city">
+              <FormControl id="city">
                 <FormLabel>Stadt</FormLabel>
-                <Input placeholder="Münster" onChange={e => setCity(e.target.value)} value={city}/>
-            </FormControl>
+                <Input placeholder="Münster" onChange={e => setCity(e.target.value)} value={city} />
+              </FormControl>
 
               <Button
                 leftIcon={<ArrowForwardIcon />}
-                variant="solid"
+                variant="outline"
+                color="green.600"
                 onClick={() => setTabIndex(tabIndex + 1)}
                 alignSelf="flex-end"
               >
@@ -619,7 +669,13 @@ const CreateInquiry = () => {
             <p>{postal_code} {city}</p>
 
             <Link as={RouterLink} to="/success" alignSelf="flex-end">
-              <Button mt={8} leftIcon={<CheckIcon />} variant="solid" onClick={createInquiry_api}>
+              <Button
+                  mt={8}
+                leftIcon={<CheckIcon />}
+                variant="outline"
+                color="green.600"
+                onClick={createInquiry_api}
+              >
                 Abschließen
               </Button>
             </Link>
