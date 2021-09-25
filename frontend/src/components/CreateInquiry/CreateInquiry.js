@@ -27,10 +27,34 @@ import {Link as RouterLink} from 'react-router-dom';
 
 const CreateInquiry = () => {
   const [tabIndex, setTabIndex] = React.useState(0);
+  const [services, setServices] = React.useState(0);
+  const [hasPrescription, setHasPrescription] = React.useState(0);
+  const [prescriptionDesc, setPrescriptionDesc] = React.useState(0);
+  const [levelOfCare, setLevelOfCare] = React.useState(0);
+  const [times_mon, setTimesMon] = React.useState(0);
+  const [times_mon_active, setTimesMonActive] = React.useState(0);
+  const [times_tue, setTimesTue] = React.useState(0);
+  const [times_tue_active, setTimesTueActive] = React.useState(0);
+  const [times_wed, setTimesWed] = React.useState(0);
+  const [times_wed_active, setTimesWedActive] = React.useState(0);
+  const [times_thu, setTimesThu] = React.useState(0);
+  const [times_thu_active, setTimesThuActive] = React.useState(0);
+  const [times_fri, setTimesFri] = React.useState(0);
+  const [times_fri_active, setTimesFriActive] = React.useState(0);
+  const [times_sat, setTimesSat] = React.useState(0);
+  const [times_sat_active, setTimesSatActive] = React.useState(0);
+  const [times_sun, setTimesSun] = React.useState(0);
+  const [times_sun_active, setTimesSunActive] = React.useState(0);
+  const [district, setDistrict] = React.useState(0);
 
   const handleTabsChange = index => {
     // Do nothing, we won't allow changing tabs using the tabs itself.
   };
+
+  const createInquiry_api = () => {
+
+  }
+
 
   const cityDistricts = [
     'Albachten (48163)',
@@ -90,14 +114,14 @@ const CreateInquiry = () => {
               <Heading mt={8} size="lg">
                 Wobei wird Hilfe benötigt? (Mehrfachauswahl möglich)
               </Heading>
-              <CheckboxGroup>
+              <CheckboxGroup onChange={value => { setServices(value);}}>
                 <Wrap spacing={4}>
-                  <Checkbox size="lg">Pflege</Checkbox>
-                  <Checkbox size="lg">Ernährung</Checkbox>
-                  <Checkbox size="lg">Ausscheidung</Checkbox>
-                  <Checkbox size="lg">Mobilisation</Checkbox>
-                  <Checkbox size="lg">Begleitung/ Betreuung</Checkbox>
-                  <Checkbox size="lg">Hauswirtschaft</Checkbox>
+                  <Checkbox size="lg" value="Pflege">Pflege</Checkbox>
+                  <Checkbox size="lg" value="Ernährung">Ernährung</Checkbox>
+                  <Checkbox size="lg" value="Ausscheidung">Ausscheidung</Checkbox>
+                  <Checkbox size="lg" value="Mobilisation">Mobilisation</Checkbox>
+                  <Checkbox size="lg" value="Betreuung">Begleitung/ Betreuung</Checkbox>
+                  <Checkbox size="lg" value="Hauswirtschaft">Hauswirtschaft</Checkbox>
                 </Wrap>
               </CheckboxGroup>
               <Divider />
@@ -105,7 +129,7 @@ const CreateInquiry = () => {
               <Heading mt={8} size="lg">
                 Liegt eine ärztliche Verordnung vor?
               </Heading>
-              <RadioGroup defaultValue="false" colorScheme="green">
+              <RadioGroup defaultValue="false" colorScheme="green" onChange={setHasPrescription} value={hasPrescription}>
                 <Wrap spacing={4}>
                   <Radio size="lg" value="true">
                     Ja
@@ -115,13 +139,13 @@ const CreateInquiry = () => {
                   </Radio>
                 </Wrap>
               </RadioGroup>
-              <Textarea placeholder="Verordnungstext" />
+              <Textarea placeholder="Verordnungstext" onChange={e => setPrescriptionDesc(e.target.value)} value={prescriptionDesc}/>
               <Divider />
 
               <Heading mt={8} size="lg">
                 Liegt ein Pflegegrad vor?
               </Heading>
-              <RadioGroup defaultValue="null" colorScheme="green">
+              <RadioGroup defaultValue="null" colorScheme="green" onChange={setLevelOfCare} value={levelOfCare}>
                 <Wrap spacing={4}>
                   <Radio size="lg" value="1">
                     1
@@ -165,56 +189,91 @@ const CreateInquiry = () => {
               </Heading>
               <CheckboxGroup defaultValue="false" colorScheme="green">
                 <SimpleGrid columns={2} spacing={4}>
-                  <Checkbox size="lg">Montag:</Checkbox>
-                  <Select placeholder="Zeitraum auswählen" size="lg">
+                  <Checkbox size="lg" onChange={value => {
+                    if(!value) setTimesMon(0);
+                    setTimesMonActive(value);
+                  }} value={times_mon_active}>Montag:</Checkbox>
+                  <Select placeholder="Zeitraum auswählen" size="lg" onChange={e => {
+                    if(times_mon_active) setTimesMon(e.target.value);
+                  }} value={times_mon}>
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
                     <option value="window2">16 - 18 Uhr</option>
                     <option value="window3">19 - 22 Uhr</option>
                   </Select>
 
-                  <Checkbox size="lg">Dienstag:</Checkbox>
-                  <Select placeholder="Zeitraum auswählen" size="lg">
+                  <Checkbox size="lg" name="ckb_time_tue" onChange={value => {
+                    if(!value) setTimesTue(0);
+                    setTimesTueActive(value);
+                  }} value={times_tue_active}>Dienstag:</Checkbox>
+                  <Select placeholder="Zeitraum auswählen" size="lg" onChange={e => {
+                    if(times_tue_active) setTimesTue(e.target.value);
+                  }} value={times_tue}>
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
                     <option value="window2">16 - 18 Uhr</option>
                     <option value="window3">19 - 22 Uhr</option>
                   </Select>
 
-                  <Checkbox size="lg">Mittwoch:</Checkbox>
-                  <Select placeholder="Zeitraum auswählen" size="lg">
+                  <Checkbox size="lg" onChange={value => {
+                    if(!value) setTimesWed(0);
+                    setTimesWedActive(value);
+                  }} value={times_wed_active}>Mittwoch:</Checkbox>
+                  <Select placeholder="Zeitraum auswählen" size="lg" onChange={e => {
+                    if(times_wed_active) setTimesWed(e.target.value);
+                  }} value={times_wed}>
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
                     <option value="window2">16 - 18 Uhr</option>
                     <option value="window3">19 - 22 Uhr</option>
                   </Select>
 
-                  <Checkbox size="lg">Donnerstag:</Checkbox>
-                  <Select placeholder="Zeitraum auswählen" size="lg">
+                  <Checkbox size="lg" onChange={value => {
+                    if(!value) setTimesThu(0);
+                    setTimesThuActive(value);
+                  }} value={times_thu_active}>Donnerstag:</Checkbox>
+                  <Select placeholder="Zeitraum auswählen" size="lg" onChange={e => {
+                    if(times_thu_active) setTimesThu(e.target.value);
+                  }} value={times_thu}>
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
                     <option value="window2">16 - 18 Uhr</option>
                     <option value="window3">19 - 22 Uhr</option>
                   </Select>
 
-                  <Checkbox size="lg">Freitag:</Checkbox>
-                  <Select placeholder="Zeitraum auswählen" size="lg">
+                  <Checkbox size="lg" onChange={value => {
+                    if(!value) setTimesFri(0);
+                    setTimesFriActive(value);
+                  }} value={times_fri_active}>Freitag:</Checkbox>
+                  <Select placeholder="Zeitraum auswählen" size="lg" onChange={e => {
+                    if(times_fri_active) setTimesFri(e.target.value);
+                  }} value={times_fri}>
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
                     <option value="window2">16 - 18 Uhr</option>
                     <option value="window3">19 - 22 Uhr</option>
                   </Select>
 
-                  <Checkbox size="lg">Samstag:</Checkbox>
-                  <Select placeholder="Zeitraum auswählen" size="lg">
+                  <Checkbox size="lg" onChange={value => {
+                    if(!value) setTimesSat(0);
+                    setTimesSatActive(value);
+                  }} value={times_sat_active}>Samstag:</Checkbox>
+                  <Select placeholder="Zeitraum auswählen" size="lg" onChange={e => {
+                    if(times_sat_active) setTimesSat(e.target.value);
+                  }} value={times_sat}>
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
                     <option value="window2">16 - 18 Uhr</option>
                     <option value="window3">19 - 22 Uhr</option>
                   </Select>
 
-                  <Checkbox size="lg">Sonntag:</Checkbox>
-                  <Select placeholder="Zeitraum auswählen" size="lg">
+                  <Checkbox size="lg" onChange={value => {
+                    if(!value) setTimesSun(0);
+                    setTimesSunActive(value);
+                  }} value={times_sun_active}>Sonntag:</Checkbox>
+                  <Select placeholder="Zeitraum auswählen" size="lg" onChange={e => {
+                    if(times_sun_active) setTimesSun(e.target.value);
+                  }} value={times_sun}>
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
                     <option value="window2">16 - 18 Uhr</option>
@@ -227,7 +286,7 @@ const CreateInquiry = () => {
               <Heading mt={8} size="lg">
                 In welchem Stadtteil wird Hilfe benötigt?
               </Heading>
-              <Select placeholder="Stadtteil auswählen" size="lg">
+              <Select placeholder="Stadtteil auswählen" size="lg" onChange={e => setDistrict(e.target.value)} value={district}>
                 {cityDistricts.map((dist, index, arr) => (
                   <option value={index}>{dist}</option>
                 ))}
