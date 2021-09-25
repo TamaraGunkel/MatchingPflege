@@ -52,7 +52,10 @@ const CreateInquiry = () => {
   };
 
   const createInquiry_api = () => {
-    let service_objs = services.map(x => {name: x});
+    let service_objs = services.map(x => {
+      return {name: x}
+    });
+
     console.log(services);
     console.log(service_objs);
 
