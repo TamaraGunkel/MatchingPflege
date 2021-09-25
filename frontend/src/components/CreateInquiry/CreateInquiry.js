@@ -21,7 +21,6 @@ import {
   Textarea,
   SimpleGrid,
   Select,
-    Text,
     Input,
     FormControl,
     FormLabel,
@@ -70,41 +69,75 @@ const CreateInquiry = () => {
       return {name: x}
     });
 
+    let all_times = [times_mon, times_tue, times_wed, times_thu, times_fri, times_sat, times_sun];
+    let all_times_active = [times_mon_active, times_tue_active, times_wed_active, times_thu_active,
+      times_fri_active, times_sat_active, times_sun_active];
+    let weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    let times_objs = [];
+
+    all_times.forEach(function (value, i) {
+      if (all_times_active[i]) {
+        times_objs.push({
+          weekday: weekdays[i],
+          time_start: "",
+          time_end: ""
+        });
+
+        switch (value) {
+          case 'window0':
+            times_objs[times_objs.length-1].time_start = '07:00';
+            times_objs[times_objs.length-1].time_end = '09:00';
+            break;
+          case 'window1':
+            times_objs[times_objs.length-1].time_start = '10:00';
+            times_objs[times_objs.length-1].time_end = '13:00';
+            break;
+          case 'window2':
+            times_objs[times_objs.length-1].time_start = '16:00';
+            times_objs[times_objs.length-1].time_end = '18:00';
+            break;
+          case 'window3':
+            times_objs[times_objs.length-1].time_start = '19:00';
+            times_objs[times_objs.length-1].time_end = '22:00';
+            break;
+        }
+      }
+    });
+
     const requestOptions = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         inquiry: {
           address: {
-            street: '',
-            number: '',
-            postal_code: '',
-            city: '',
-            district: '',
+            street: street,
+            number: street_number,
+            postal_code: postal_code,
+            city: city,
+            district: district,
           },
           level_of_care: levelOfCare,
           duration: 0,
-          hiring_start: '',
-          hiring_end: '',
-          description: '',
+          hiring_start: "2021-09-25T09:44:37.514Z",
+          hiring_end: "2021-09-25T09:44:37.514Z",
+          description: prescriptionDesc,
           necessary_expertise: [],
           service_categories: [],
           contact_opt_in: true,
         },
         customer: {
-          last_name: '',
-          first_name: '',
-          telephone: '',
-          email: '',
+          last_name: last_name,
+          first_name: first_name,
+          telephone: telephone,
+          email: email,
         },
         services: service_objs,
+        times: times_objs
       }),
     };
 
-    /*  fetch('https://localhost:8000/inquiry', requestOptions)
-        .then(response => response.json())
-        .then(data => console.log(data));
-*/
+    fetch('http://localhost:8000/inquiry', requestOptions)
+        .then(response => console.log(response));
   };
 
   const cityDistricts = [
@@ -273,9 +306,8 @@ const CreateInquiry = () => {
                     size="lg"
                     onChange={value => {
                       if (!value) setTimesMon(0);
-                      setTimesMonActive(value);
+                      setTimesMonActive(value.target.checked);
                     }}
-                    value={times_mon_active}
                   >
                     Montag:
                   </Checkbox>
@@ -285,7 +317,6 @@ const CreateInquiry = () => {
                     onChange={e => {
                       if (times_mon_active) setTimesMon(e.target.value);
                     }}
-                    value={times_mon}
                   >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
@@ -298,9 +329,8 @@ const CreateInquiry = () => {
                     name="ckb_time_tue"
                     onChange={value => {
                       if (!value) setTimesTue(0);
-                      setTimesTueActive(value);
+                      setTimesTueActive(value.target.checked);
                     }}
-                    value={times_tue_active}
                   >
                     Dienstag:
                   </Checkbox>
@@ -310,7 +340,6 @@ const CreateInquiry = () => {
                     onChange={e => {
                       if (times_tue_active) setTimesTue(e.target.value);
                     }}
-                    value={times_tue}
                   >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
@@ -322,9 +351,8 @@ const CreateInquiry = () => {
                     size="lg"
                     onChange={value => {
                       if (!value) setTimesWed(0);
-                      setTimesWedActive(value);
+                      setTimesWedActive(value.target.checked);
                     }}
-                    value={times_wed_active}
                   >
                     Mittwoch:
                   </Checkbox>
@@ -334,7 +362,6 @@ const CreateInquiry = () => {
                     onChange={e => {
                       if (times_wed_active) setTimesWed(e.target.value);
                     }}
-                    value={times_wed}
                   >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
@@ -346,9 +373,8 @@ const CreateInquiry = () => {
                     size="lg"
                     onChange={value => {
                       if (!value) setTimesThu(0);
-                      setTimesThuActive(value);
+                      setTimesThuActive(value.target.checked);
                     }}
-                    value={times_thu_active}
                   >
                     Donnerstag:
                   </Checkbox>
@@ -358,7 +384,6 @@ const CreateInquiry = () => {
                     onChange={e => {
                       if (times_thu_active) setTimesThu(e.target.value);
                     }}
-                    value={times_thu}
                   >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
@@ -370,9 +395,8 @@ const CreateInquiry = () => {
                     size="lg"
                     onChange={value => {
                       if (!value) setTimesFri(0);
-                      setTimesFriActive(value);
+                      setTimesFriActive(value.target.checked);
                     }}
-                    value={times_fri_active}
                   >
                     Freitag:
                   </Checkbox>
@@ -382,7 +406,6 @@ const CreateInquiry = () => {
                     onChange={e => {
                       if (times_fri_active) setTimesFri(e.target.value);
                     }}
-                    value={times_fri}
                   >
                     <option value="window0">7 - 9 Uhr</option>
                     <option value="window1">10 - 13 Uhr</option>
@@ -394,9 +417,8 @@ const CreateInquiry = () => {
                     size="lg"
                     onChange={value => {
                       if (!value) setTimesSat(0);
-                      setTimesSatActive(value);
+                      setTimesSatActive(value.target.checked);
                     }}
-                    value={times_sat_active}
                   >
                     Samstag:
                   </Checkbox>
@@ -418,9 +440,8 @@ const CreateInquiry = () => {
                     size="lg"
                     onChange={value => {
                       if (!value) setTimesSun(0);
-                      setTimesSunActive(value);
+                      setTimesSunActive(value.target.checked);
                     }}
-                    value={times_sun_active}
                   >
                     Sonntag:
                   </Checkbox>
@@ -451,7 +472,7 @@ const CreateInquiry = () => {
                 value={district}
               >
                 {cityDistricts.map((dist, index, arr) => (
-                  <option value={index}>{dist}</option>
+                  <option value={index} key={index}>{dist}</option>
                 ))}
               </Select>
 
