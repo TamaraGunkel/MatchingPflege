@@ -53,7 +53,7 @@ const CreateInquiry = () => {
 
   const createInquiry_api = () => {
     let service_objs = services.map(x => {
-      return {name: x}
+      return {name: x};
     });
 
     console.log(services);
@@ -128,21 +128,21 @@ const CreateInquiry = () => {
           <Tab>
             <HStack>
               {tabIndex === 0 && <Avatar name="1" bg="gray.400" h="10" w="10" />}
-              {tabIndex !== 0 && <CheckCircleIcon color="green" h="10" w="10" />}
+              {tabIndex !== 0 && <CheckCircleIcon color="green.600" h="10" w="10" />}
               <Heading size="md">Bedürfnisse angeben</Heading>
             </HStack>
           </Tab>
           <Tab>
             <HStack>
               {tabIndex <= 1 && <Avatar name="2" bg="gray.400" h="10" w="10" />}
-              {tabIndex > 1 && <CheckCircleIcon color="green" h="10" w="10" />}
+              {tabIndex > 1 && <CheckCircleIcon color="green.600" h="10" w="10" />}
               <Heading size="md">Wann und Wo</Heading>
             </HStack>
           </Tab>
           <Tab>
             <HStack>
               {tabIndex <= 2 && <Avatar name="3" bg="gray.400" h="10" w="10" />}
-              {tabIndex > 2 && <CheckCircleIcon color="green" h="10" w="10" />}
+              {tabIndex > 2 && <CheckCircleIcon color="green.600" h="10" w="10" />}
               <Heading size="md">Kontakt und Details</Heading>
             </HStack>
           </Tab>
@@ -243,7 +243,8 @@ const CreateInquiry = () => {
 
               <Button
                 leftIcon={<ArrowForwardIcon />}
-                variant="solid"
+                variant="outline"
+                color="green.600"
                 onClick={() => setTabIndex(tabIndex + 1)}
                 alignSelf="flex-end"
               >
@@ -446,7 +447,7 @@ const CreateInquiry = () => {
 
               <Button
                 leftIcon={<ArrowForwardIcon />}
-                variant="solid"
+                variant="outline"
                 onClick={() => setTabIndex(tabIndex + 1)}
                 alignSelf="flex-end"
               >
@@ -456,7 +457,12 @@ const CreateInquiry = () => {
           </TabPanel>
           <TabPanel>
             <Link as={RouterLink} to="/success" alignSelf="flex-end">
-              <Button leftIcon={<CheckIcon />} variant="solid" onClick={createInquiry_api}>
+              <Button
+                leftIcon={<CheckIcon />}
+                variant="outline"
+                color="green.600"
+                onClick={createInquiry_api}
+              >
                 Abschließen
               </Button>
             </Link>
