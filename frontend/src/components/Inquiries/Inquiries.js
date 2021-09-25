@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import {
   Tabs,
   TabList,
@@ -72,7 +73,37 @@ function Inquiries(props) {
               </Table>
             </TabPanel>
             <TabPanel>
-              <p>two</p>
+              <Table variant="simple">
+                <Thead>
+                  <Tr>
+                    <Th>Stadtteil</Th>
+                    <Th>Art der Pflege</Th>
+                    <Th>Details</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {inquires.map(inquiry =>
+                      <Tr>
+                        <Td>inquiry.address.district</Td>
+                        <Td>inquiry.services</Td>
+                        <Td>
+                          <Link as={RouterLink} to={"/inquiry/"+inquiry.id} alignSelf="flex-end">
+                            <Button variant="solid">
+                              Mehr Informationen
+                            </Button>
+                          </Link>
+                        </Td>
+                      </Tr>
+                  )}
+                </Tbody>
+                <Tfoot>
+                  <Tr>
+                    <Th>Stadtteil</Th>
+                    <Th>Art der Pflege</Th>
+                    <Th>Details</Th>
+                  </Tr>
+                </Tfoot>
+              </Table>
             </TabPanel>
           </TabPanels>
         </Tabs>
