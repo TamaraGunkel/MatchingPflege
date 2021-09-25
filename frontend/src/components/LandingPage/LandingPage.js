@@ -1,20 +1,14 @@
+import * as React from 'react';
 import {Link} from 'react-router-dom';
-import {
-  Box,
-  Heading,
-  Center,
-  LinkOverlay,
-  LinkBox,
-  Container,
-  VStack,
-  HStack,
-} from '@chakra-ui/react';
+import {Box, Heading, Center, LinkOverlay, LinkBox, VStack, HStack} from '@chakra-ui/react';
 import {QuestionIcon} from '@chakra-ui/icons';
 import ChatBot from 'react-simple-chatbot';
 
 import BackgroundImage from '../../img/background.jpg';
 
 const LandingPage = () => {
+  const [botOpen, setBotOpen] = React.useState(true);
+
   const parseMessage = input => {
     return input;
   };
@@ -73,6 +67,8 @@ const LandingPage = () => {
         </HStack>
       </Center>
       <ChatBot
+        opened={botOpen}
+        toggleFloating={() => setBotOpen(!botOpen)}
         headerTitle=""
         botDelay={750}
         enableSmoothScroll={true}
