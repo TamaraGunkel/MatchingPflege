@@ -63,6 +63,7 @@ const CreateInquiry = () => {
   const [city, setCity] = React.useState('');
 
   const[accept, setAccept] = React.useState(false);
+  const[contactOptIn, setContactOptIn] = React.useState(false);
   const handleTabsChange = index => {
     // Do nothing, we won't allow changing tabs using the tabs itself.
   };
@@ -227,8 +228,8 @@ const CreateInquiry = () => {
       <Text>Für die Nutzung der von mir ausgewählten Transaktion aus dem Online-Dienstleistungsangebot der Stadt Münster ist die Erhebung und Speicherung von personenbezogenen Daten erforderlich. Detaillierte Informationen über den Umgang mit personenbezogenen Daten sind in der <Link color="teal.500" href="#">Datenschutzerklärung</Link> zu finden</Text>
                 <Checkbox onChange={e => {setAccept(e);
                 }} >Ich habe die Datenschutzerklärung gelesen und nehme diese zur Kenntnis. Ich bin damit einverstanden, dass meine Angaben und Daten elektronisch zu den in der Datenschutzerklärung erläuterten Zwecken erhoben und gespeichert werden.</Checkbox>
-                <Checkbox onChange={value => {
-                  setServices(value);
+                <Checkbox onChange={e => {
+                  setContactOptIn(e);
                 }}
               >
                 Ich bin damit einverstanden, dass meine Daten an Pflegeeinrichtungen und
@@ -266,10 +267,10 @@ const CreateInquiry = () => {
               </CheckboxGroup>
               <Divider />
 
-              <Heading mt={8} size="lg">
+              <HStack><Heading mt={8} size="lg">
                 Liegt eine ärztliche Verordnung vor?
               </Heading>
-                <HStack><Tooltip label="Die Verordnung einer häuslichen Krankenpflege erfolgt in der Regel durch einen Vertragsarzt, z.B. den Hausarzt. Die erste Verordnung ist längstens für 14 Tage möglich, die Folgeverordnung kann auch für einen längeren Zeitraum ausgestellt werden"><QuestionIcon/></Tooltip></HStack>
+                <Tooltip label="Die Verordnung einer häuslichen Krankenpflege erfolgt in der Regel durch einen Vertragsarzt, z.B. den Hausarzt. Die erste Verordnung ist längstens für 14 Tage möglich, die Folgeverordnung kann auch für einen längeren Zeitraum ausgestellt werden"><QuestionIcon/></Tooltip></HStack>
 
               <RadioGroup
                 defaultValue="false"
@@ -514,12 +515,27 @@ const CreateInquiry = () => {
                 size="lg"
                 onChange={e => setDistrict(e.target.value)}
                 value={district}
-              >
-                {cityDistricts.map((dist, index, arr) => (
-                  <option value={index} key={index}>
-                    {dist}
-                  </option>
-                ))}
+              >     <option value="Albachten (48163)"> Albachten (48163) </option>
+                    <option value="Altstadt (48143, 48147)"> Altstadt (48143, 48147) </option>
+                    <option value="Amelsbüren (48163, 48165)"> Amelsbüren (48163, 48165) </option>
+                    <option value="Angelmodde (48165, 48167)"> Angelmodde (48165, 48167) </option>
+                    <option value="BergFidel (48153, 48163, 48165)"> BergFidel (48153, 48163, 48165) </option>
+                    <option value="Coerde (48157)"> Coerde (48157) </option>
+                    <option value="Gelmer-Dyckburg (48155, 48157)"> Gelmer-Dyckburg (48155, 48157) </option>
+                    <option value="Gievenbeck(48149, 48159, 48161)"> Gievenbeck(48149, 48159, 48161) </option>
+                    <option value="Gremmendorf (48155, 48157, 48167)"> Gremmendorf (48155, 48157, 48167) </option>
+                    <option value="Handorf (48155, 48157)"> Handorf (48155, 48157) </option>
+                    <option value="Hiltrup (48163, 48165)"> Hiltrup (48163, 48165) </option>
+                    <option value="Innenstadtring (48143, 48145, 48147, 48149, 48151, 48153, 48155, 48159)"> Innenstadtring (48143, 48145, 48147, 48149, 48151, 48153, 48155, 48159) </option>
+                    <option value="Kinderhaus (48157, 48159)"> Kinderhaus (48157, 48159) </option>
+                    <option value="Mitte-Nordost (48145, 48147, 48155, 48159)"> Mitte-Nordost (48145, 48147, 48155, 48159) </option>
+                    <option value="Mitte-Süd (48151, 48153, 48163)"> Mitte-Süd (48151, 48153, 48163) </option>
+                    <option value="Nienberge (48159, 48161)"> Nienberge (48159, 48161) </option>
+                    <option value="Roxel (48161, 48163)"> Roxel (48161, 48163) </option>
+                    <option value="Sentruper Höhe (48149, 48161, 48163)"> Sentruper Höhe (48149, 48161, 48163) </option>
+                    <option value="Sprakel (48157, 48159, 48161)"> Sprakel (48157, 48159, 48161) </option>
+                    <option value="St.Mauritz (48145, 48155, 48157)"> St.Mauritz	(48145, 48155, 48157) </option>
+                    <option value="Wolbeck (48155, 48167)"> Wolbeck (48155, 48167) </option>
               </Select>
 
               <Button
