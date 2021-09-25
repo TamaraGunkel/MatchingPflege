@@ -36,7 +36,7 @@ def get_db():
         db.close()
 
 
-def inquiry_to_schema(model: ModelInquiry, customer: ModelCustomer):
+def inquiry_to_schema(model: ModelInquiry):
     return SchemaInquiry(id = model.id, level_of_care = model.level_of_care,
                          description= model.description,
                          contact_opt_in = 1,

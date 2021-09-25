@@ -25,7 +25,7 @@ function Inquiries(props) {
   const [inquires, setInquires] = React.useState([]);
 
   React.useEffect(async() => {
-    await fetch("/inquiries?page=5&page_size=5&district=5&status=1")
+    await fetch("http://localhost:8000/inquiries?page=1&page_size=5&district=5&status=1")
         .then(response => response.json())
         .then(data => setInquires(data))
   }, []);
