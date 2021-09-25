@@ -38,6 +38,7 @@ class Inquiry(Base):
     description = Column(String)
     necessary_expertise = Column(String)
     contact_opt_in = Column(Boolean)
+    status = Column(String)
 
     services = relationship("Service", secondary=inquiries_services_table)
     times = relationship("InquiryTime", secondary=inquiries_time_table)

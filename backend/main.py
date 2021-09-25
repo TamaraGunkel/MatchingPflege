@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 from typing import Optional, List
 
 import uvicorn
@@ -6,11 +6,8 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-from sql_app import crud, models, schemas
-from sql_app.database import SessionLocal, engine
-from sql_app.models import Inquiry as ModelInquiry
-from sql_app.models import Customer as ModelCustomer
-from sql_app.schemas import Inquiry as SchemaInquiry, Address
+
+from datetime import timedelta
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -36,20 +33,31 @@ def get_db():
         db.close()
 
 
-def inquiry_to_schema(model: ModelInquiry):
-    return SchemaInquiry(id = model.id, level_of_care = model.level_of_care,
-                         description= model.description,
-                         contact_opt_in = 1,
-                         hiring_start=model.hiring_start,
-                         hiring_end=model.hiring_end,
-                         duration=10,
-                         address=Address(
-                             street=model.address_street,
-                             number=model.address_number,
-                             postal_code=model.address_postal_code,
-                             city=model.address_city,
-                             district=model.address_district
-                         ))
+def inquiry_to_schema(model: ModelInquiry, customer: ModelCustomer):
+    return SchemaInquiry(
+        id = model.id,
+        last_name = customer.last_name,
+        first_name = customer.first_name,
+        telephone = customer.telephone,
+        email = customer.email,
+        address=Address(
+            street=model.address_street,
+            number=model.address_number,
+            postal_code=model.address_postal_code,
+            city=model.address_city,
+            district=model.address_district
+        ),
+        level_of_care = model.level_of_care,
+        time = model.times,
+        duration = timedelta(minutes=model.duration_in_minutes),
+        description = model.description,
+        duration_hiring=Duration(
+            start=model.hiring_start,
+            stop=model.hiring_end
+        ),
+        necessary_expertise = [""],
+        service_categories = [""]
+    )
 
 def inquiry_to_dict(model):
     return {
@@ -108,16 +116,19 @@ def delete_inquiry(id: int):
 def get_inquiry(id: int, db: Session = Depends(get_db)):
     model = crud.get_inquiry(db=db, inquiry_id=id)
     customer = crud.get_customer_by_id(db=db, customer_id=model.customer_id)
-    dto = inquiry_to_schema(model, customer).dict()
-    return model
+    dto = inquiry_to_schema(model, customer)
+    return dto
 
 
 @app.get("/inquiries")
 def get_inquiries(page: Optional[int] = 1, page_size:  Optional[int] = 1, district: Optional[str] = None, status: Optional[str] = None, db: Session = Depends(get_db)):
     skip = (page -1) * page_size
-    models = crud.get_inquiries(db=db, skip=skip, limit=page_size)
-    dto = [inquiry_to_schema(m).json() for m in models]
-    return models
+    models = crud.get_inquiries(db=db, skip=skip, limit=page_size, district=district, status=status)
+    dto = []
+    for m in models:
+        c = crud.get_customer_by_id(db=db, customer_id=m.customer_id)
+        dto.append(inquiry_to_schema( model=m, customer=c))
+    return dto
 
 @app.patch("/inquiry/{id}/data_sharing")
 def patch_inquiry_data_sharing(id: int):
