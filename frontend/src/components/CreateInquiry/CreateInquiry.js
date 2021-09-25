@@ -21,13 +21,15 @@ import {
   Textarea,
   SimpleGrid,
   Select,
-  Input,
-  FormControl,
-  FormLabel,
-  InputGroup,
-  InputLeftAddon,
+    Text,
+    Input,
+    FormControl,
+    FormLabel,
+    InputGroup,
+    InputLeftAddon,
+    Tooltip,
 } from '@chakra-ui/react';
-import {CheckCircleIcon, ArrowForwardIcon, CheckIcon} from '@chakra-ui/icons';
+import {CheckCircleIcon, ArrowForwardIcon, CheckIcon, QuestionIcon} from '@chakra-ui/icons';
 import {Link as RouterLink} from 'react-router-dom';
 
 const CreateInquiry = () => {
@@ -60,6 +62,7 @@ const CreateInquiry = () => {
   const [postal_code, setPostalcode] = React.useState('');
   const [city, setCity] = React.useState('');
 
+  const[accept, setAccept] = React.useState(false);
   const handleTabsChange = index => {
     // Do nothing, we won't allow changing tabs using the tabs itself.
   };
@@ -171,8 +174,18 @@ const CreateInquiry = () => {
     'Wolbeck (48155, 48167)',
   ];
 
+  const renderTime = (time_window) => {
+    switch(time_window) {
+      case 'window0': return '07:00 - 09:00 Uhr';
+      case 'window1': return '10:00 - 13:00 Uhr';
+      case 'window2': return '16:00 - 18:00 Uhr';
+      case 'window3': return '19:00 - 22:00 Uhr';
+      default: return 'Ungültig';
+    }
+  }
+
   return (
-    <Container as="main" maxW="3xl" rounded="md" shadow="xs" p={10}>
+    <Container as="main" maxW="4xl" rounded="md" shadow="xs" p={10}>
       <Tabs isFitted="true" variant="unstyled" index={tabIndex} onChange={handleTabsChange}>
         <TabList>
           <Tab>
@@ -196,6 +209,13 @@ const CreateInquiry = () => {
               <Heading size="md">Kontakt und Details</Heading>
             </HStack>
           </Tab>
+          <Tab>
+            <HStack>
+              {tabIndex <= 3 && <Avatar name="4" bg="gray.400" h="10" w="10" />}
+              {tabIndex > 3 && <CheckCircleIcon color="green" h="10" w="10" />}
+              <Heading size="md">Zusammenfassung</Heading>
+            </HStack>
+          </Tab>
         </TabList>
 
         <TabPanels>
@@ -204,16 +224,10 @@ const CreateInquiry = () => {
               <Heading mt={8} size="lg">
                 Datenschutzangaben
               </Heading>
-              <Checkbox
-                onChange={value => {
-                  setServices(value);
-                }}
-              >
-                Ich bin damit einverstanden, dass meine Daten zur Verarbeitung meiner Anfrage
-                gespeichert dürfen.
-              </Checkbox>
-              <Checkbox
-                onChange={value => {
+      <Text>Für die Nutzung der von mir ausgewählten Transaktion aus dem Online-Dienstleistungsangebot der Stadt Münster ist die Erhebung und Speicherung von personenbezogenen Daten erforderlich. Detaillierte Informationen über den Umgang mit personenbezogenen Daten sind in der <Link color="teal.500" href="#">Datenschutzerklärung</Link> zu finden</Text>
+                <Checkbox onChange={e => {setAccept(e);
+                }} >Ich habe die Datenschutzerklärung gelesen und nehme diese zur Kenntnis. Ich bin damit einverstanden, dass meine Angaben und Daten elektronisch zu den in der Datenschutzerklärung erläuterten Zwecken erhoben und gespeichert werden.</Checkbox>
+                <Checkbox onChange={value => {
                   setServices(value);
                 }}
               >
@@ -255,6 +269,8 @@ const CreateInquiry = () => {
               <Heading mt={8} size="lg">
                 Liegt eine ärztliche Verordnung vor?
               </Heading>
+                <HStack><Tooltip label="Die Verordnung einer häuslichen Krankenpflege erfolgt in der Regel durch einen Vertragsarzt, z.B. den Hausarzt. Die erste Verordnung ist längstens für 14 Tage möglich, die Folgeverordnung kann auch für einen längeren Zeitraum ausgestellt werden"><QuestionIcon/></Tooltip></HStack>
+
               <RadioGroup
                 defaultValue="false"
                 colorScheme="green"
@@ -312,6 +328,7 @@ const CreateInquiry = () => {
               </RadioGroup>
 
               <Button
+                isDisabled={!accept}
                 leftIcon={<ArrowForwardIcon />}
                 variant="outline"
                 color="green.600"
@@ -606,8 +623,53 @@ const CreateInquiry = () => {
             </VStack>
           </TabPanel>
           <TabPanel>
+            <Heading mt={8} size="lg">
+              Zusammenfassung
+            </Heading>
+            <Heading mt={8} size="md">
+              Bedürfnisse
+            </Heading>
+
+            <Text mt={4}><strong>Wobei wird Hilfe benötigt?</strong></Text>
+            <p>{services}</p>
+            <Text mt={4}><strong>Liegt eine ärztliche Verordnung vor?</strong></Text>
+            <p>{hasPrescription ? 'Ja': 'Nein'}</p>
+            <p>{hasPrescription ? prescriptionDesc: ''}</p>
+            <Text mt={4}><strong>Liegt ein Pflegegrad vor?</strong></Text>
+            <p>{levelOfCare}</p>
+
+            <Heading mt={8} size="md">
+              Wann und Wo
+            </Heading>
+            <Text mt={4}><strong>An welchen Tagen und zu welcher Uhrzeit wird Hilfe benötigt?</strong></Text>
+            <p>{times_mon_active ? 'Montag: ' + renderTime(times_mon) : ''}</p>
+            <p>{times_tue_active ? 'Dienstag: ' + renderTime(times_tue) : ''}</p>
+            <p>{times_wed_active ? 'Mittwoch: ' + renderTime(times_wed) : ''}</p>
+            <p>{times_thu_active ? 'Donnerstag: ' + renderTime(times_thu) : ''}</p>
+            <p>{times_fri_active ? 'Freitag: ' + renderTime(times_fri) : ''}</p>
+            <p>{times_sat_active ? 'Samstag: ' + renderTime(times_sat) : ''}</p>
+            <p>{times_sun_active ? 'Sonntag: ' + renderTime(times_sun) : ''}</p>
+
+            <Text mt={4}><strong>In welchem Stadtteil wird Hilfe benötigt?</strong></Text>
+            <p>{cityDistricts[district]}</p>
+
+            <Heading mt={8} size="md">
+              Kontaktinformationen
+            </Heading>
+            <Text mt={4}><strong>Name</strong></Text>
+            <p>{first_name} {last_name}</p>
+            <Text mt={4}><strong>Telefonnummer</strong></Text>
+            <p>{telephone}</p>
+            <Text mt={4}><strong>Email</strong></Text>
+            <p>{email}</p>
+            <Text mt={4}><strong>Straße und Hausnummer:</strong></Text>
+            <p>{street} {street_number}</p>
+            <Text mt={4}><strong>Postleitzahl und Stadt:</strong></Text>
+            <p>{postal_code} {city}</p>
+
             <Link as={RouterLink} to="/success" alignSelf="flex-end">
               <Button
+                  mt={8}
                 leftIcon={<CheckIcon />}
                 variant="outline"
                 color="green.600"
