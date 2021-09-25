@@ -61,8 +61,11 @@ def get_inquiry(id: int, db: Session = Depends(get_db)):
 
 
 @app.get("/inquiries")
-def get_inquiries(page: Optional[int] = 1, page_size:  Optional[int] = 1, district: Optional[str] = None, status: Optional[str] = None):
-    return ""
+def get_inquiries(page: Optional[int] = 1, page_size:  Optional[int] = 1, district: Optional[str] = None, status: Optional[str] = None, db: Session = Depends(get_db)):
+    skip = (page -1) * page_size
+    models = crud.get_inquiries(db=db, skip=skip, limit=page_size)
+    dto = [SchemaInquiry(**m).dict() for m in models]
+    return dto
 
 @app.patch("/inquiry/{id}/data_sharing")
 def patch_inquiry_data_sharing(id: int):

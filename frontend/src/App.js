@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import {VStack} from '@chakra-ui/react';
+import {Flex} from '@chakra-ui/react';
 
 import LandingPage from './components/LandingPage/LandingPage';
 import Inquiries from './components/Inquiries/Inquiries';
@@ -12,7 +12,7 @@ import Header from './components/Header/Header';
 function App() {
   return (
     <Router>
-      <VStack w="100vw" p="0" spacing={8}>
+      <Flex w="100vw" h="100vh" p="0" direction="column" alignItems="stretch">
         <Header />
         <Switch>
           <Route path="/login">
@@ -31,7 +31,7 @@ function App() {
             <LandingPage />
           </Route>
         </Switch>
-      </VStack>
+      </Flex>
     </Router>
   );
 }
