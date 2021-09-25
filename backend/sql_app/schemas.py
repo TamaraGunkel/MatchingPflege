@@ -6,14 +6,21 @@ from pydantic import BaseModel
 
 
 class Address(BaseModel):
-     street: str
-     number: str
-     postal_code: str
-     city: str
+     street: str = ""
+     number: str = ""
+     postal_code: str = ""
+     city: str = "Münster"
      district: str
 
      class Config:
          orm_mode = True
+
+class Duration(BaseModel):
+    start: Optional[datetime]
+    end: Optional[datetime]
+
+    class Config:
+        orm_mode = True
 
 
 class InquiryTimeBase(BaseModel):
@@ -22,16 +29,26 @@ class InquiryTimeBase(BaseModel):
     time_end: time
 
 
+class InquiryTime(InquiryTimeBase):
+    pass
+
+    class Config:
+        orm_mode = True
+
+
 class InquiryBase(BaseModel):
+    last_name: str
+    first_name: str
+    telephone: str
+    email: str
     address: Address
     level_of_care: int
+    time: List[InquiryTime] = []
     duration: timedelta
-    hiring_start: datetime
-    hiring_end: datetime
+    duration_hiring : Duration
     description: str
     necessary_expertise: List[str] = []
     service_categories: List[str] = []
-    contact_opt_in: bool
 
 
 class ServiceBase(BaseModel):
@@ -45,7 +62,7 @@ class CustomerBase(BaseModel):
 
 
 class InquiryCreate(InquiryBase):
-    pass
+    contact_opt_in: bool
 
 
 class ServiceCreate(ServiceBase):

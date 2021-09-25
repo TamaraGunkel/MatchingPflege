@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 from typing import Optional, List
 
 import uvicorn
@@ -37,19 +37,30 @@ def get_db():
 
 
 def inquiry_to_schema(model: ModelInquiry, customer: ModelCustomer):
-    return SchemaInquiry(id = model.id, level_of_care = model.level_of_care,
-                         description= model.description,
-                         contact_opt_in = 1,
-                         hiring_start=model.hiring_start,
-                         hiring_end=model.hiring_end,
-                         duration=10,
-                         address=Address(
-                             street=model.address_street,
-                             number=model.address_number,
-                             postal_code=model.address_postal_code,
-                             city=model.address_city,
-                             district=model.address_district
-                         ))
+    return SchemaInquiry(
+        id = model.id,
+        last_name = customer.last_name,
+        first_name = customer.first_name,
+        telephone = customer.telephone,
+        email = customer.email,
+        address=Address(
+            street=model.address_street,
+            number=model.address_number,
+            postal_code=model.address_postal_code,
+            city=model.address_city,
+            district=model.address_district
+        ),
+        level_of_care = model.level_of_care,
+        time = model.times,
+        duration = timedelta(minutes=model.duration_in_minutes),
+        description = model.description,
+        duration_hiring=Duration(
+            start=model.hiring_start,
+            stop=model.hiring_end
+        ),
+        necessary_expertise = [""],
+        service_categories = [""]
+    )
 
 def inquiry_to_dict(model):
     return {
