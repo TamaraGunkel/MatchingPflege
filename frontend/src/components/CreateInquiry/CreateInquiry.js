@@ -33,7 +33,7 @@ import {Link as RouterLink} from 'react-router-dom';
 
 const CreateInquiry = () => {
   const [tabIndex, setTabIndex] = React.useState(0);
-  const [services, setServices] = React.useState(0);
+  const [services, setServices] = React.useState([]);
   const [hasPrescription, setHasPrescription] = React.useState(0);
   const [prescriptionDesc, setPrescriptionDesc] = React.useState("");
   const [levelOfCare, setLevelOfCare] = React.useState(0);
@@ -70,9 +70,6 @@ const CreateInquiry = () => {
       return {name: x}
     });
 
-    console.log(services);
-    console.log(service_objs);
-
     const requestOptions = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -100,7 +97,7 @@ const CreateInquiry = () => {
           telephone: '',
           email: '',
         },
-        services: [],
+        services: service_objs,
       }),
     };
 
