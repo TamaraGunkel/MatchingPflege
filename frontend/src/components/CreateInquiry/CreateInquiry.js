@@ -185,7 +185,7 @@ const CreateInquiry = () => {
   }
 
   return (
-    <Container as="main" maxW="3xl" rounded="md" shadow="xs" p={10}>
+    <Container as="main" maxW="4xl" rounded="md" shadow="xs" p={10}>
       <Tabs isFitted="true" variant="unstyled" index={tabIndex} onChange={handleTabsChange}>
         <TabList>
           <Tab>
