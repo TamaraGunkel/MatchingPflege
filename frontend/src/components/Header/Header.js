@@ -1,7 +1,7 @@
 import {Box, Flex, Spacer, Heading, Link, Button, HStack, Image} from '@chakra-ui/react';
 import {useLocation, Link as RouterLink} from 'react-router-dom';
 
-import Logo from '../../img/WhoCaresLogo.svg';
+import Logo from '../../img/WhoCaresLogoV2.png';
 
 const Header = () => {
   const location = useLocation();
