@@ -28,7 +28,7 @@ const LoginForm = () => (
         <Input type="password" placeholder="Passwort" />
       </InputGroup>
       <Link as={RouterLink} to="/inquiries" alignSelf="flex-end">
-        <Button leftIcon={<EmailIcon />} variant="solid" bg="brand">
+        <Button leftIcon={<EmailIcon />} variant="solid">
           Einloggen
         </Button>
       </Link>
