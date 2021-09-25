@@ -21,15 +21,15 @@ import {
   Textarea,
   SimpleGrid,
   Select,
-    Text,
-    Input,
-    FormControl,
-    FormLabel,
-    InputGroup,
-    InputLeftAddon,
-    Tooltip,
+  Text,
+  Input,
+  FormControl,
+  FormLabel,
+  InputGroup,
+  InputLeftAddon,
+  Tooltip, Spacer, Center,
 } from '@chakra-ui/react';
-import {CheckCircleIcon, ArrowForwardIcon, CheckIcon, QuestionIcon} from '@chakra-ui/icons';
+import {CheckCircleIcon, ArrowForwardIcon, CheckIcon, QuestionIcon, ArrowBackIcon} from '@chakra-ui/icons';
 import {Link as RouterLink} from 'react-router-dom';
 
 const CreateInquiry = () => {
@@ -537,7 +537,17 @@ const CreateInquiry = () => {
                     <option value="St.Mauritz (48145, 48155, 48157)"> St.Mauritz	(48145, 48155, 48157) </option>
                     <option value="Wolbeck (48155, 48167)"> Wolbeck (48155, 48167) </option>
               </Select>
-
+              <div>
+              <Button
+                  leftIcon={<ArrowBackIcon />}
+                  variant="outline"
+                  color="green.600"
+                  onClick={() => setTabIndex(tabIndex - 1)}
+                  alignSelf="flex-start"
+                  mr={25}
+              >
+                Zurück
+              </Button>
               <Button
                 leftIcon={<ArrowForwardIcon />}
                 variant="outline"
@@ -547,6 +557,7 @@ const CreateInquiry = () => {
               >
                 Weiter
               </Button>
+              </div>
             </VStack>
           </TabPanel>
           <TabPanel>
@@ -589,6 +600,7 @@ const CreateInquiry = () => {
               <FormControl id="email" isRequired>
                 <FormLabel>Email</FormLabel>
                 <Input
+                  type="email"
                   placeholder="user@test.de"
                   onChange={e => setEmail(e.target.value)}
                   value={email}
@@ -627,15 +639,27 @@ const CreateInquiry = () => {
                 <Input placeholder="Münster" onChange={e => setCity(e.target.value)} value={city} />
               </FormControl>
 
-              <Button
-                leftIcon={<ArrowForwardIcon />}
-                variant="outline"
-                color="green.600"
-                onClick={() => setTabIndex(tabIndex + 1)}
-                alignSelf="flex-end"
-              >
-                Weiter
-              </Button>
+              <div>
+                <Button
+                    leftIcon={<ArrowBackIcon />}
+                    variant="outline"
+                    color="green.600"
+                    onClick={() => setTabIndex(tabIndex - 1)}
+                    alignSelf="flex-start"
+                    mr={25}
+                >
+                  Zurück
+                </Button>
+                <Button
+                    leftIcon={<ArrowForwardIcon />}
+                    variant="outline"
+                    color="green.600"
+                    onClick={() => setTabIndex(tabIndex + 1)}
+                    alignSelf="flex-end"
+                >
+                  Weiter
+                </Button>
+              </div>
             </VStack>
           </TabPanel>
           <TabPanel>
@@ -682,18 +706,30 @@ const CreateInquiry = () => {
             <p>{street} {street_number}</p>
             <Text mt={4}><strong>Postleitzahl und Stadt:</strong></Text>
             <p>{postal_code} {city}</p>
-
-            <Link as={RouterLink} to="/success" alignSelf="flex-end">
+            <Center>
               <Button
+                  leftIcon={<ArrowBackIcon />}
+                  variant="outline"
+                  color="green.600"
+                  onClick={() => setTabIndex(tabIndex - 1)}
+                  alignSelf="flex-start"
                   mt={8}
-                leftIcon={<CheckIcon />}
-                variant="outline"
-                color="green.600"
-                onClick={createInquiry_api}
+                  mr={25}
               >
-                Abschließen
+                Zurück
               </Button>
-            </Link>
+              <Link as={RouterLink} to="/success" alignSelf="flex-end">
+                <Button
+                    leftIcon={<CheckIcon />}
+                    variant="outline"
+                    color="green.600"
+                    mt={8}
+                    onClick={createInquiry_api}
+                >
+                  Abschließen
+                </Button>
+              </Link>
+            </Center>
           </TabPanel>
         </TabPanels>
       </Tabs>
