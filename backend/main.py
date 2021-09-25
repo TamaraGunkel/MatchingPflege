@@ -14,7 +14,7 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 origins =[
-    "http://localhost:8000"
+    "*"
 ]
 
 app.add_middleware(
@@ -78,7 +78,8 @@ def inquiry_to_dict(model):
         "contact_opt_in": model.contact_opt_in
     }
 
-@app.post("/inquiry/")
+
+@app.post("/inquiry")
 def create_inquiry(inquiry: schemas.InquiryCreate, customer: schemas.CustomerCreate,
                    services: List[schemas.ServiceCreate],
                    times: List[schemas.InquiryTimeCreate],

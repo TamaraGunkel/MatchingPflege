@@ -12,7 +12,7 @@ import {AtSignIcon, EmailIcon, UnlockIcon} from '@chakra-ui/icons';
 import {Link as RouterLink} from 'react-router-dom';
 
 const LoginForm = () => (
-  <Container as="main" maxW="3xl" rounded="md" shadow="xs" p={10}>
+  <Container as="main" maxW="3xl" rounded="md" shadow="xs" p={10} mt={8}>
     <VStack spacing={4}>
       <Heading>Login für Dienstleister</Heading>
       <InputGroup>
@@ -28,7 +28,7 @@ const LoginForm = () => (
         <Input type="password" placeholder="Passwort" />
       </InputGroup>
       <Link as={RouterLink} to="/inquiries" alignSelf="flex-end">
-        <Button leftIcon={<EmailIcon />} variant="solid" bg="brand">
+        <Button leftIcon={<EmailIcon />} variant="outline" color="green.600">
           Einloggen
         </Button>
       </Link>
