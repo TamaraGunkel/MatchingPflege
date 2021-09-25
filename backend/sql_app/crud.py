@@ -72,3 +72,7 @@ def get_time(db: Session, weekday: str, time_start: time, time_end: time):
     return db.query(models.InquiryTime).filter(models.InquiryTime.weekday == weekday,
                                                models.InquiryTime.time_start == time_start,
                                                models.InquiryTime.time_end == time_end).first()
+
+
+def get_customer_by_id(db: Session, customer_id:int):
+    return db.query(models.Customer).filter(models.Customer.id == customer_id).first()

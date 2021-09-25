@@ -24,9 +24,6 @@ class Inquiry(Base):
 
     customer_id = Column(Integer, ForeignKey("customers.id"))
     
-    
-    relationship("Custumer")
-    
 
     id = Column(Integer, primary_key=True, index=True)
     address_street = Column(String)

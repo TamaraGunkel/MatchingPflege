@@ -52,7 +52,48 @@ const CreateInquiry = () => {
   };
 
   const createInquiry_api = () => {
+    let service_objs = services.map(x => {name: x});
+    console.log(services);
+    console.log(service_objs);
 
+    const requestOptions = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        inquiry: {
+          address: {
+            street: "",
+            number: "",
+            postal_code: "",
+            city: "",
+            district: ""
+          },
+          level_of_care: levelOfCare,
+          duration: 0,
+          hiring_start: "",
+          hiring_end: "",
+          description: "",
+          necessary_expertise: [],
+          service_categories: [],
+          contact_opt_in: true
+        },
+        customer: {
+          last_name: "",
+          first_name: "",
+          telephone: "",
+          email: ""
+        },
+        services: [
+
+        ]
+      })
+
+    };
+
+  /*  fetch('https://localhost:8000/inquiry', requestOptions)
+        .then(response => response.json())
+        .then(data => console.log(data));
+*/
   }
 
 
@@ -305,7 +346,7 @@ const CreateInquiry = () => {
           </TabPanel>
           <TabPanel>
             <Link as={RouterLink} to="/success" alignSelf="flex-end">
-              <Button leftIcon={<CheckIcon />} variant="solid" bg="brand">
+              <Button leftIcon={<CheckIcon />} variant="solid" bg="brand" onClick={createInquiry_api}>
                 Abschließen
               </Button>
             </Link>
