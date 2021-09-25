@@ -21,6 +21,12 @@ import {
   Textarea,
   SimpleGrid,
   Select,
+    Text,
+    Input,
+    FormControl,
+    FormLabel,
+    InputGroup,
+    InputLeftAddon,
 } from '@chakra-ui/react';
 import {CheckCircleIcon, ArrowForwardIcon, CheckIcon} from '@chakra-ui/icons';
 import {Link as RouterLink} from 'react-router-dom';
@@ -29,7 +35,7 @@ const CreateInquiry = () => {
   const [tabIndex, setTabIndex] = React.useState(0);
   const [services, setServices] = React.useState(0);
   const [hasPrescription, setHasPrescription] = React.useState(0);
-  const [prescriptionDesc, setPrescriptionDesc] = React.useState(0);
+  const [prescriptionDesc, setPrescriptionDesc] = React.useState("");
   const [levelOfCare, setLevelOfCare] = React.useState(0);
   const [times_mon, setTimesMon] = React.useState(0);
   const [times_mon_active, setTimesMonActive] = React.useState(0);
@@ -46,6 +52,14 @@ const CreateInquiry = () => {
   const [times_sun, setTimesSun] = React.useState(0);
   const [times_sun_active, setTimesSunActive] = React.useState(0);
   const [district, setDistrict] = React.useState(0);
+  const [first_name, setFirstName] = React.useState("");
+  const [last_name, setLastName] = React.useState("");
+  const [telephone, setPhonenumber] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [street, setStreet] = React.useState("");
+  const [street_number, setStreetnumber] = React.useState("");
+  const [postal_code, setPostalcode] = React.useState("");
+  const [city, setCity] = React.useState("");
 
   const handleTabsChange = index => {
     // Do nothing, we won't allow changing tabs using the tabs itself.
@@ -291,6 +305,66 @@ const CreateInquiry = () => {
                   <option value={index}>{dist}</option>
                 ))}
               </Select>
+
+              <Button
+                leftIcon={<ArrowForwardIcon />}
+                variant="solid"
+                bg="brand"
+                onClick={() => setTabIndex(tabIndex + 1)}
+                alignSelf="flex-end"
+              >
+                Weiter
+              </Button>
+            </VStack>
+          </TabPanel>
+                     <TabPanel>
+            <VStack spacing={8}>
+              <Heading mt={8} size="lg">
+                Kontakt und Details
+              </Heading>
+
+            <FormControl id="first_name" isRequired>
+                <FormLabel>Vorname</FormLabel>
+                <Input placeholder="First name" onChange={e => setFirstName(e.target.value)} value={first_name}/>
+            </FormControl>
+
+            <FormControl id="last_name" isRequired>
+                <FormLabel>Nachname</FormLabel>
+                <Input placeholder="Last name" onChange={e => setLastName(e.target.value)} value={last_name}/>
+            </FormControl>
+
+            <FormControl id="telephone" isRequired>
+                <FormLabel>Telefonnummer</FormLabel>
+                <InputGroup>
+                    <InputLeftAddon children="+49" />
+                    <Input type="tel" placeholder="12345" onChange={e => setPhonenumber(e.target.value)} value={telephone}/>
+                  </InputGroup>
+            </FormControl>
+
+            <FormControl id="email" isRequired>
+                <FormLabel>Email</FormLabel>
+                <Input placeholder="user@test.de" onChange={e => setEmail(e.target.value)} value={email}/>
+            </FormControl>
+
+            <FormControl id="street">
+                <FormLabel>Straße</FormLabel>
+                <Input placeholder="Straße" onChange={e => setStreet(e.target.value)} value={street}/>
+            </FormControl>
+
+            <FormControl id="street_number">
+                <FormLabel>Hausnummer</FormLabel>
+                <Input placeholder="Hausnummer" onChange={e => setStreetnumber(e.target.value)} value={street_number}/>
+            </FormControl>
+
+            <FormControl id="postal_code">
+                <FormLabel>Postleitzahl</FormLabel>
+                <Input placeholder="Postleitzahl" onChange={e => setPostalcode(e.target.value)} value={postal_code}/>
+            </FormControl>
+
+            <FormControl id="city">
+                <FormLabel>Stadt</FormLabel>
+                <Input placeholder="Münster" onChange={e => setCity(e.target.value)} value={city}/>
+            </FormControl>
 
               <Button
                 leftIcon={<ArrowForwardIcon />}
