@@ -1,5 +1,7 @@
-import {Box, Flex, Spacer, Heading, Link, Button} from '@chakra-ui/react';
+import {Box, Flex, Spacer, Heading, Link, Button, HStack, Image} from '@chakra-ui/react';
 import {useLocation, Link as RouterLink} from 'react-router-dom';
+
+import Logo from '../../img/WhoCaresLogo.svg';
 
 const Header = () => {
   const location = useLocation();
@@ -7,10 +9,13 @@ const Header = () => {
   return (
     <Box p={8} boxShadow="sm" w="100%" as="header">
       <Flex>
-        <Heading size="lg">Zuhause in Münster</Heading>
+        <HStack spacing={6}>
+          <Image src={Logo} boxSize="24" />
+          <Heading size="lg">Zuhause in Münster</Heading>
+        </HStack>
         <Spacer />
         {location.pathname === '/' && (
-          <Link as={RouterLink} to="/login" alignSelf="flex-end">
+          <Link as={RouterLink} to="/login" alignSelf="center">
             <Button variant="outline">Login für Dienstleister</Button>
           </Link>
         )}
