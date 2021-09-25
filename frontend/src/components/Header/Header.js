@@ -16,7 +16,9 @@ const Header = () => {
         <Spacer />
         {location.pathname === '/' && (
           <Link as={RouterLink} to="/login" alignSelf="center">
-            <Button variant="outline">Login für Dienstleister</Button>
+            <Button variant="outline" color="green.600">
+              Login für Dienstleister
+            </Button>
           </Link>
         )}
       </Flex>

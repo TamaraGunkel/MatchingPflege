@@ -41,7 +41,7 @@ const LandingPage = () => {
           <LinkBox>
             <Link to="/create-inquiry">
               <LinkOverlay>
-                <Box height="auto" p="16" bg="green" textColor="white" rounded="md">
+                <Box height="auto" p="16" bg="green.600" textColor="white" rounded="md">
                   <Center>
                     <Heading centerContent size="lg">
                       Hilfe für Pflege erhalten
@@ -54,7 +54,7 @@ const LandingPage = () => {
           <LinkBox>
             <Link to="#">
               <LinkOverlay>
-                <Box height="auto" p="16" bg="green" textColor="white" rounded="md">
+                <Box height="auto" p="16" bg="green.600" textColor="white" rounded="md">
                   <Center>
                     <Heading centerContent size="lg">
                       Hilfe im Haushalt erhalten
