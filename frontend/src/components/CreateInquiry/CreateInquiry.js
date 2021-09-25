@@ -27,9 +27,17 @@ import {
   FormLabel,
   InputGroup,
   InputLeftAddon,
-  Tooltip, Spacer, Center,
+  Tooltip,
+  Spacer,
+  Center,
 } from '@chakra-ui/react';
-import {CheckCircleIcon, ArrowForwardIcon, CheckIcon, QuestionIcon, ArrowBackIcon} from '@chakra-ui/icons';
+import {
+  CheckCircleIcon,
+  ArrowForwardIcon,
+  CheckIcon,
+  QuestionIcon,
+  ArrowBackIcon,
+} from '@chakra-ui/icons';
 import {Link as RouterLink} from 'react-router-dom';
 
 const CreateInquiry = () => {
@@ -62,11 +70,15 @@ const CreateInquiry = () => {
   const [postal_code, setPostalcode] = React.useState('');
   const [city, setCity] = React.useState('');
 
-  const[accept, setAccept] = React.useState(false);
-  const[contactOptIn, setContactOptIn] = React.useState(false);
+  const [accept, setAccept] = React.useState(false);
+  const [contactOptIn, setContactOptIn] = React.useState(false);
   const handleTabsChange = index => {
     // Do nothing, we won't allow changing tabs using the tabs itself.
   };
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [tabIndex]);
 
   const createInquiry_api = () => {
     let service_objs = services.map(x => {
@@ -175,15 +187,20 @@ const CreateInquiry = () => {
     'Wolbeck (48155, 48167)',
   ];
 
-  const renderTime = (time_window) => {
-    switch(time_window) {
-      case 'window0': return '07:00 - 09:00 Uhr';
-      case 'window1': return '10:00 - 13:00 Uhr';
-      case 'window2': return '16:00 - 18:00 Uhr';
-      case 'window3': return '19:00 - 22:00 Uhr';
-      default: return 'Ungültig';
+  const renderTime = time_window => {
+    switch (time_window) {
+      case 'window0':
+        return '07:00 - 09:00 Uhr';
+      case 'window1':
+        return '10:00 - 13:00 Uhr';
+      case 'window2':
+        return '16:00 - 18:00 Uhr';
+      case 'window3':
+        return '19:00 - 22:00 Uhr';
+      default:
+        return 'Ungültig';
     }
-  }
+  };
 
   return (
     <Container as="main" maxW="4xl" rounded="md" shadow="xs" p={10}>
@@ -225,10 +242,27 @@ const CreateInquiry = () => {
               <Heading mt={8} size="lg">
                 Datenschutzangaben
               </Heading>
-      <Text>Für die Nutzung der von mir ausgewählten Transaktion aus dem Online-Dienstleistungsangebot der Stadt Münster ist die Erhebung und Speicherung von personenbezogenen Daten erforderlich. Detaillierte Informationen über den Umgang mit personenbezogenen Daten sind in der <Link color="teal.500" href="#">Datenschutzerklärung</Link> zu finden</Text>
-                <Checkbox onChange={e => {setAccept(e);
-                }} >Ich habe die Datenschutzerklärung gelesen und nehme diese zur Kenntnis. Ich bin damit einverstanden, dass meine Angaben und Daten elektronisch zu den in der Datenschutzerklärung erläuterten Zwecken erhoben und gespeichert werden.</Checkbox>
-                <Checkbox onChange={e => {
+              <Text>
+                Für die Nutzung der von mir ausgewählten Transaktion aus dem
+                Online-Dienstleistungsangebot der Stadt Münster ist die Erhebung und Speicherung von
+                personenbezogenen Daten erforderlich. Detaillierte Informationen über den Umgang mit
+                personenbezogenen Daten sind in der{' '}
+                <Link color="teal.500" href="#">
+                  Datenschutzerklärung
+                </Link>{' '}
+                zu finden
+              </Text>
+              <Checkbox
+                onChange={e => {
+                  setAccept(e);
+                }}
+              >
+                Ich habe die Datenschutzerklärung gelesen und nehme diese zur Kenntnis. Ich bin
+                damit einverstanden, dass meine Angaben und Daten elektronisch zu den in der
+                Datenschutzerklärung erläuterten Zwecken erhoben und gespeichert werden.
+              </Checkbox>
+              <Checkbox
+                onChange={e => {
                   setContactOptIn(e);
                 }}
               >
@@ -267,10 +301,14 @@ const CreateInquiry = () => {
               </CheckboxGroup>
               <Divider />
 
-              <HStack><Heading mt={8} size="lg">
-                Liegt eine ärztliche Verordnung vor?
-              </Heading>
-                <Tooltip label="Die Verordnung einer häuslichen Krankenpflege erfolgt in der Regel durch einen Vertragsarzt, z.B. den Hausarzt. Die erste Verordnung ist längstens für 14 Tage möglich, die Folgeverordnung kann auch für einen längeren Zeitraum ausgestellt werden"><QuestionIcon/></Tooltip></HStack>
+              <HStack>
+                <Heading mt={8} size="lg">
+                  Liegt eine ärztliche Verordnung vor?
+                </Heading>
+                <Tooltip label="Die Verordnung einer häuslichen Krankenpflege erfolgt in der Regel durch einen Vertragsarzt, z.B. den Hausarzt. Die erste Verordnung ist längstens für 14 Tage möglich, die Folgeverordnung kann auch für einen längeren Zeitraum ausgestellt werden">
+                  <QuestionIcon />
+                </Tooltip>
+              </HStack>
 
               <RadioGroup
                 defaultValue="false"
@@ -515,48 +553,80 @@ const CreateInquiry = () => {
                 size="lg"
                 onChange={e => setDistrict(e.target.value)}
                 value={district}
-              >     <option value="Albachten (48163)"> Albachten (48163) </option>
-                    <option value="Altstadt (48143, 48147)"> Altstadt (48143, 48147) </option>
-                    <option value="Amelsbüren (48163, 48165)"> Amelsbüren (48163, 48165) </option>
-                    <option value="Angelmodde (48165, 48167)"> Angelmodde (48165, 48167) </option>
-                    <option value="BergFidel (48153, 48163, 48165)"> BergFidel (48153, 48163, 48165) </option>
-                    <option value="Coerde (48157)"> Coerde (48157) </option>
-                    <option value="Gelmer-Dyckburg (48155, 48157)"> Gelmer-Dyckburg (48155, 48157) </option>
-                    <option value="Gievenbeck(48149, 48159, 48161)"> Gievenbeck(48149, 48159, 48161) </option>
-                    <option value="Gremmendorf (48155, 48157, 48167)"> Gremmendorf (48155, 48157, 48167) </option>
-                    <option value="Handorf (48155, 48157)"> Handorf (48155, 48157) </option>
-                    <option value="Hiltrup (48163, 48165)"> Hiltrup (48163, 48165) </option>
-                    <option value="Innenstadtring (48143, 48145, 48147, 48149, 48151, 48153, 48155, 48159)"> Innenstadtring (48143, 48145, 48147, 48149, 48151, 48153, 48155, 48159) </option>
-                    <option value="Kinderhaus (48157, 48159)"> Kinderhaus (48157, 48159) </option>
-                    <option value="Mitte-Nordost (48145, 48147, 48155, 48159)"> Mitte-Nordost (48145, 48147, 48155, 48159) </option>
-                    <option value="Mitte-Süd (48151, 48153, 48163)"> Mitte-Süd (48151, 48153, 48163) </option>
-                    <option value="Nienberge (48159, 48161)"> Nienberge (48159, 48161) </option>
-                    <option value="Roxel (48161, 48163)"> Roxel (48161, 48163) </option>
-                    <option value="Sentruper Höhe (48149, 48161, 48163)"> Sentruper Höhe (48149, 48161, 48163) </option>
-                    <option value="Sprakel (48157, 48159, 48161)"> Sprakel (48157, 48159, 48161) </option>
-                    <option value="St.Mauritz (48145, 48155, 48157)"> St.Mauritz	(48145, 48155, 48157) </option>
-                    <option value="Wolbeck (48155, 48167)"> Wolbeck (48155, 48167) </option>
+              >
+                {' '}
+                <option value="Albachten (48163)"> Albachten (48163) </option>
+                <option value="Altstadt (48143, 48147)"> Altstadt (48143, 48147) </option>
+                <option value="Amelsbüren (48163, 48165)"> Amelsbüren (48163, 48165) </option>
+                <option value="Angelmodde (48165, 48167)"> Angelmodde (48165, 48167) </option>
+                <option value="BergFidel (48153, 48163, 48165)">
+                  {' '}
+                  BergFidel (48153, 48163, 48165){' '}
+                </option>
+                <option value="Coerde (48157)"> Coerde (48157) </option>
+                <option value="Gelmer-Dyckburg (48155, 48157)">
+                  {' '}
+                  Gelmer-Dyckburg (48155, 48157){' '}
+                </option>
+                <option value="Gievenbeck(48149, 48159, 48161)">
+                  {' '}
+                  Gievenbeck(48149, 48159, 48161){' '}
+                </option>
+                <option value="Gremmendorf (48155, 48157, 48167)">
+                  {' '}
+                  Gremmendorf (48155, 48157, 48167){' '}
+                </option>
+                <option value="Handorf (48155, 48157)"> Handorf (48155, 48157) </option>
+                <option value="Hiltrup (48163, 48165)"> Hiltrup (48163, 48165) </option>
+                <option value="Innenstadtring (48143, 48145, 48147, 48149, 48151, 48153, 48155, 48159)">
+                  {' '}
+                  Innenstadtring (48143, 48145, 48147, 48149, 48151, 48153, 48155, 48159){' '}
+                </option>
+                <option value="Kinderhaus (48157, 48159)"> Kinderhaus (48157, 48159) </option>
+                <option value="Mitte-Nordost (48145, 48147, 48155, 48159)">
+                  {' '}
+                  Mitte-Nordost (48145, 48147, 48155, 48159){' '}
+                </option>
+                <option value="Mitte-Süd (48151, 48153, 48163)">
+                  {' '}
+                  Mitte-Süd (48151, 48153, 48163){' '}
+                </option>
+                <option value="Nienberge (48159, 48161)"> Nienberge (48159, 48161) </option>
+                <option value="Roxel (48161, 48163)"> Roxel (48161, 48163) </option>
+                <option value="Sentruper Höhe (48149, 48161, 48163)">
+                  {' '}
+                  Sentruper Höhe (48149, 48161, 48163){' '}
+                </option>
+                <option value="Sprakel (48157, 48159, 48161)">
+                  {' '}
+                  Sprakel (48157, 48159, 48161){' '}
+                </option>
+                <option value="St.Mauritz (48145, 48155, 48157)">
+                  {' '}
+                  St.Mauritz (48145, 48155, 48157){' '}
+                </option>
+                <option value="Wolbeck (48155, 48167)"> Wolbeck (48155, 48167) </option>
               </Select>
               <div>
-              <Button
+                <Button
                   leftIcon={<ArrowBackIcon />}
                   variant="outline"
                   color="green.600"
                   onClick={() => setTabIndex(tabIndex - 1)}
                   alignSelf="flex-start"
                   mr={25}
-              >
-                Zurück
-              </Button>
-              <Button
-                leftIcon={<ArrowForwardIcon />}
-                variant="outline"
-                color="green.600"
-                onClick={() => setTabIndex(tabIndex + 1)}
-                alignSelf="flex-end"
-              >
-                Weiter
-              </Button>
+                >
+                  Zurück
+                </Button>
+                <Button
+                  leftIcon={<ArrowForwardIcon />}
+                  variant="outline"
+                  color="green.600"
+                  onClick={() => setTabIndex(tabIndex + 1)}
+                  alignSelf="flex-end"
+                >
+                  Weiter
+                </Button>
               </div>
             </VStack>
           </TabPanel>
@@ -641,21 +711,21 @@ const CreateInquiry = () => {
 
               <div>
                 <Button
-                    leftIcon={<ArrowBackIcon />}
-                    variant="outline"
-                    color="green.600"
-                    onClick={() => setTabIndex(tabIndex - 1)}
-                    alignSelf="flex-start"
-                    mr={25}
+                  leftIcon={<ArrowBackIcon />}
+                  variant="outline"
+                  color="green.600"
+                  onClick={() => setTabIndex(tabIndex - 1)}
+                  alignSelf="flex-start"
+                  mr={25}
                 >
                   Zurück
                 </Button>
                 <Button
-                    leftIcon={<ArrowForwardIcon />}
-                    variant="outline"
-                    color="green.600"
-                    onClick={() => setTabIndex(tabIndex + 1)}
-                    alignSelf="flex-end"
+                  leftIcon={<ArrowForwardIcon />}
+                  variant="outline"
+                  color="green.600"
+                  onClick={() => setTabIndex(tabIndex + 1)}
+                  alignSelf="flex-end"
                 >
                   Weiter
                 </Button>
@@ -670,18 +740,26 @@ const CreateInquiry = () => {
               Bedürfnisse
             </Heading>
 
-            <Text mt={4}><strong>Wobei wird Hilfe benötigt?</strong></Text>
+            <Text mt={4}>
+              <strong>Wobei wird Hilfe benötigt?</strong>
+            </Text>
             <p>{services}</p>
-            <Text mt={4}><strong>Liegt eine ärztliche Verordnung vor?</strong></Text>
-            <p>{hasPrescription ? 'Ja': 'Nein'}</p>
-            <p>{hasPrescription ? prescriptionDesc: ''}</p>
-            <Text mt={4}><strong>Liegt ein Pflegegrad vor?</strong></Text>
+            <Text mt={4}>
+              <strong>Liegt eine ärztliche Verordnung vor?</strong>
+            </Text>
+            <p>{hasPrescription ? 'Ja' : 'Nein'}</p>
+            <p>{hasPrescription ? prescriptionDesc : ''}</p>
+            <Text mt={4}>
+              <strong>Liegt ein Pflegegrad vor?</strong>
+            </Text>
             <p>{levelOfCare}</p>
 
             <Heading mt={8} size="md">
               Wann und Wo
             </Heading>
-            <Text mt={4}><strong>An welchen Tagen und zu welcher Uhrzeit wird Hilfe benötigt?</strong></Text>
+            <Text mt={4}>
+              <strong>An welchen Tagen und zu welcher Uhrzeit wird Hilfe benötigt?</strong>
+            </Text>
             <p>{times_mon_active ? 'Montag: ' + renderTime(times_mon) : ''}</p>
             <p>{times_tue_active ? 'Dienstag: ' + renderTime(times_tue) : ''}</p>
             <p>{times_wed_active ? 'Mittwoch: ' + renderTime(times_wed) : ''}</p>
@@ -690,41 +768,59 @@ const CreateInquiry = () => {
             <p>{times_sat_active ? 'Samstag: ' + renderTime(times_sat) : ''}</p>
             <p>{times_sun_active ? 'Sonntag: ' + renderTime(times_sun) : ''}</p>
 
-            <Text mt={4}><strong>In welchem Stadtteil wird Hilfe benötigt?</strong></Text>
+            <Text mt={4}>
+              <strong>In welchem Stadtteil wird Hilfe benötigt?</strong>
+            </Text>
             <p>{cityDistricts[district]}</p>
 
             <Heading mt={8} size="md">
               Kontaktinformationen
             </Heading>
-            <Text mt={4}><strong>Name</strong></Text>
-            <p>{first_name} {last_name}</p>
-            <Text mt={4}><strong>Telefonnummer</strong></Text>
+            <Text mt={4}>
+              <strong>Name</strong>
+            </Text>
+            <p>
+              {first_name} {last_name}
+            </p>
+            <Text mt={4}>
+              <strong>Telefonnummer</strong>
+            </Text>
             <p>{telephone}</p>
-            <Text mt={4}><strong>Email</strong></Text>
+            <Text mt={4}>
+              <strong>Email</strong>
+            </Text>
             <p>{email}</p>
-            <Text mt={4}><strong>Straße und Hausnummer:</strong></Text>
-            <p>{street} {street_number}</p>
-            <Text mt={4}><strong>Postleitzahl und Stadt:</strong></Text>
-            <p>{postal_code} {city}</p>
+            <Text mt={4}>
+              <strong>Straße und Hausnummer:</strong>
+            </Text>
+            <p>
+              {street} {street_number}
+            </p>
+            <Text mt={4}>
+              <strong>Postleitzahl und Stadt:</strong>
+            </Text>
+            <p>
+              {postal_code} {city}
+            </p>
             <Center>
               <Button
-                  leftIcon={<ArrowBackIcon />}
-                  variant="outline"
-                  color="green.600"
-                  onClick={() => setTabIndex(tabIndex - 1)}
-                  alignSelf="flex-start"
-                  mt={8}
-                  mr={25}
+                leftIcon={<ArrowBackIcon />}
+                variant="outline"
+                color="green.600"
+                onClick={() => setTabIndex(tabIndex - 1)}
+                alignSelf="flex-start"
+                mt={8}
+                mr={25}
               >
                 Zurück
               </Button>
               <Link as={RouterLink} to="/success" alignSelf="flex-end">
                 <Button
-                    leftIcon={<CheckIcon />}
-                    variant="outline"
-                    color="green.600"
-                    mt={8}
-                    onClick={createInquiry_api}
+                  leftIcon={<CheckIcon />}
+                  variant="outline"
+                  color="green.600"
+                  mt={8}
+                  onClick={createInquiry_api}
                 >
                   Abschließen
                 </Button>
