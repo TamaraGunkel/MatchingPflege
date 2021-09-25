@@ -49,6 +49,7 @@ class InquiryBase(BaseModel):
     description: str
     necessary_expertise: List[str] = []
     service_categories: List[str] = []
+    status: str = ""
 
 
 class ServiceBase(BaseModel):

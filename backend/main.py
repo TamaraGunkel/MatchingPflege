@@ -115,14 +115,14 @@ def delete_inquiry(id: int):
 def get_inquiry(id: int, db: Session = Depends(get_db)):
     model = crud.get_inquiry(db=db, inquiry_id=id)
     customer = crud.get_customer_by_id(db=db, customer_id=model.customer_id)
-    dto = inquiry_to_schema(model, customer).dict()
-    return model
+    dto = inquiry_to_schema(model, customer)
+    return dto
 
 
 @app.get("/inquiries")
 def get_inquiries(page: Optional[int] = 1, page_size:  Optional[int] = 1, district: Optional[str] = None, status: Optional[str] = None, db: Session = Depends(get_db)):
     skip = (page -1) * page_size
-    models = crud.get_inquiries(db=db, skip=skip, limit=page_size)
+    models = crud.get_inquiries(db=db, skip=skip, limit=page_size, district=district, status=status)
     dto = []
     for m in models:
         c = crud.get_customer_by_id(db=db, customer_id=m.customer_id)
