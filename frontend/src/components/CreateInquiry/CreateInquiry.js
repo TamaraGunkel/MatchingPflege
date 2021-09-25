@@ -195,6 +195,16 @@ const CreateInquiry = () => {
         <TabPanels>
           <TabPanel>
             <VStack spacing={8}>
+               <Heading mt={8} size="lg">
+                Datenschutzangaben
+              </Heading>
+                <Checkbox onChange={value => {
+                  setServices(value);
+                }} >Ich bin damit einverstanden, dass meine Daten zur Verarbeitung meiner Anfrage gespeichert dürfen.</Checkbox>
+                <Checkbox onChange={value => {
+                  setServices(value);
+                }} >Ich bin damit einverstanden, dass meine Daten an Pflegeeinrichtungen und Dienstleister weiter gegeben werden dürfen.</Checkbox>
+                <Divider />
               <Heading mt={8} size="lg">
                 Wobei wird Hilfe benötigt? (Mehrfachauswahl möglich)
               </Heading>
@@ -479,7 +489,6 @@ const CreateInquiry = () => {
               <Button
                 leftIcon={<ArrowForwardIcon />}
                 variant="solid"
-                bg="brand"
                 onClick={() => setTabIndex(tabIndex + 1)}
                 alignSelf="flex-end"
               >
