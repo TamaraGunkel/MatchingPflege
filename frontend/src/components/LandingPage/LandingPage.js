@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {Box, Heading, Center, LinkOverlay, LinkBox, VStack, HStack} from '@chakra-ui/react';
+import {Redirect} from 'react-router-dom';
 import {QuestionIcon} from '@chakra-ui/icons';
 import ChatBot from 'react-simple-chatbot';
 import {ThemeProvider} from 'styled-components';
@@ -17,7 +18,6 @@ const theme = {
   userBubbleColor: '#fff',
   userFontColor: '#000',
 };
-
 const LandingPage = () => {
   const [botOpen, setBotOpen] = React.useState(true);
 
@@ -92,19 +92,45 @@ const LandingPage = () => {
           opened={botOpen}
           toggleFloating={() => setBotOpen(!botOpen)}
           headerTitle=""
-          botDelay={750}
           enableSmoothScroll={true}
           floatingIcon={<QuestionIcon color="white" w={6} h={6} />}
           steps={[
             {
-              id: 'computer-response',
-              message: parseMessage('{previousValue}'),
-              trigger: 'user-input',
+              id: '1',
+              message:
+                'Hallo mein Name ist Peter. Willkommen bei zuhause-in.ms! Ich bin ein automatisches Hilfesystem und kann dich auf unserer Plattform unterstützen. Kann ich dir bei irgendetwas helfen?',
+              trigger: '2',
+            },
+            {id: '2', user: true, trigger: '3'},
+            {
+              id: '3',
+              message:
+                'Auf unserer Plattform kannst du deine Pflegebedürfnisse eintragen, damit sich Pflegedienstleister direkt bei dir melden können.',
+              trigger: '4',
             },
             {
-              id: 'user-input',
-              user: true,
-              trigger: 'computer-response',
+              delay: 1500,
+              id: '4',
+              message:
+                'Möchtest du über unsere Plattform in Kontakt mit Pflegedienstleistern treten?',
+              trigger: '5',
+            },
+            {
+              id: '5',
+              options: [
+                {value: 1, label: 'Ja', trigger: '6'},
+                {value: 0, label: 'Nein'},
+              ],
+            },
+            {
+              id: '6',
+              message: 'Kein Problem. Ich leite dich auf das korrekte Formular weiter.',
+              component: <Redirect push to="/create-inquiry" />,
+              trigger: '7',
+            },
+            {
+              id: '7',
+              component: <Redirect push to="/create-inquiry" />,
             },
           ]}
           floating={true}
