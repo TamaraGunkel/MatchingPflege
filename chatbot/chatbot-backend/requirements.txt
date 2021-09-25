@@ -1,0 +1,5 @@
+Flask==0.10.1
+numpy==1.20.1
+scipy==1.6.2
+gensim ==3.8.3
+ChatterBot==1.0.5

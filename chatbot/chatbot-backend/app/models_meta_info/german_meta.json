@@ -1,0 +1,53 @@
+{
+    "algorithm": {
+        "command": "word2vec -min-count 10 -size 100 -window 10 -negative 5 -iter 2 -threads 16 -cbow 0 -binary 0",
+        "id": 3,
+        "name": "Word2Vec Continuous Skipgram",
+        "tool": "word2vec",
+        "url": "https://code.google.com/archive/p/word2vec/",
+        "version": null
+    },
+    "contents": [
+        {
+            "filename": "model.txt",
+            "format": "text"
+        },
+        {
+            "filename": "meta.json",
+            "format": "json"
+        },
+        {
+            "filename": "LIST",
+            "format": "text"
+        }
+    ],
+    "corpus": [
+        {
+            "NER": false,
+            "case preserved": false,
+            "description": "German CoNLL17 corpus",
+            "id": 45,
+            "language": "deu",
+            "lemmatized": false,
+            "public": true,
+            "stop words removal": null,
+            "tagger": null,
+            "tagset": null,
+            "tokens": 6298202810,
+            "tool": null,
+            "url": null
+        }
+    ],
+    "creators": [
+        {
+            "email": "andreku@ifi.uio.no",
+            "name": "Andrey Kutuzov"
+        }
+    ],
+    "dimensions": 100,
+    "handle": "http://vectors.nlpl.eu/repository/20/45.zip",
+    "id": 45,
+    "iterations": 2,
+    "vocabulary size": 4946997,
+    "window": 10
+}
