@@ -1,7 +1,10 @@
+from datetime import date
 from typing import Optional, List
+from starlette.datastructures import Address
 
 import uvicorn
 from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from sql_app import crud, models, schemas
