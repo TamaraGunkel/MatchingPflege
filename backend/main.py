@@ -9,6 +9,10 @@ from sqlalchemy.orm import Session
 
 from datetime import timedelta
 
+from sql_app import models, schemas, crud
+from sql_app.database import engine, SessionLocal
+from sql_app.schemas import Address, Duration
+
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -33,8 +37,8 @@ def get_db():
         db.close()
 
 
-def inquiry_to_schema(model: ModelInquiry, customer: ModelCustomer):
-    return SchemaInquiry(
+def inquiry_to_schema(model: models.Inquiry, customer: models.Customer):
+    return schemas.Inquiry(
         id = model.id,
         last_name = customer.last_name,
         first_name = customer.first_name,

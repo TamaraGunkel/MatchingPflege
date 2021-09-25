@@ -37,15 +37,10 @@ class InquiryTime(InquiryTimeBase):
 
 
 class InquiryBase(BaseModel):
-    last_name: str
-    first_name: str
-    telephone: str
-    email: str
     address: Address
     level_of_care: int
     time: List[InquiryTime] = []
     duration: timedelta
-    duration_hiring : Duration
     description: str
     necessary_expertise: List[str] = []
     service_categories: List[str] = []

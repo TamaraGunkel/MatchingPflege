@@ -18,24 +18,34 @@ function DetailInquiry(props) {
         address_city: 'Münster',
         address_number: '5',
         address_postal_code: '48149',
-        address_street: 'Hansaring',
+        address_street: 'Rüschhausweg',
         address_district: 'Gievenbeck',
         contact_opt_in: true,
-        description: "Beschreibung",
+        description: "",
         duration_in_minutes: 0,
         hiring_end: '2021-10-25T09:56:02.955000',
         hiring_start: '2021-09-25T09:56:02.955000',
-        level_of_care: 0,
+        level_of_care: 3,
         first_name: 'Helga',
         last_name: 'Müller',
         email: 'helga.mueller@gmail.com',
         telephone: '0123456789',
-        services: ['Pflege', 'Betreuung'],
+        services: ['Pflege', 'Mobilisation'],
         times: [
             {
                 weekday: 'Montag',
                 time_start: '07:00',
                 time_end: '09:00'
+            },
+            {
+                weekday: 'Mittwoch',
+                time_start: '07:00',
+                time_end: '09:00'
+            },
+            {
+                weekday: 'Samstag',
+                time_start: '10:00',
+                time_end: '13:00'
             }
         ]
     });
@@ -100,9 +110,12 @@ function DetailInquiry(props) {
             <Text mt={4}><strong>Postleitzahl und Stadt:</strong></Text>
             <p>{inquiry.address_postal_code} {inquiry.address_city}</p>
 
+
+            <Link as={RouterLink} to="/inquiries" alignSelf="flex-end">
             <Button leftIcon={<AddIcon />} variant="solid" mt={8}>
                 Kunde acquirieren
             </Button>
+            </Link>
         </Container>
     );
 }

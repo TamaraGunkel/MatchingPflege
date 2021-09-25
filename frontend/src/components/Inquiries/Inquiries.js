@@ -24,10 +24,32 @@ function Inquiries(props) {
 
   const [inquires, setInquires] = React.useState([]);
 
-  React.useEffect(async() => {
-    await fetch("http://localhost:8000/inquiries?page=1&page_size=5&district=5&status=1")
+  React.useEffect(async () => {
+    setInquires([{
+      id: 1,
+      address_district: 'Gievenbeck',
+      services: ['Pflege', 'Mobilisation']
+    },
+      {
+        id: 1,
+        address_district: 'Hafen',
+        services: ['Ernährung', 'Mobilisation']
+      },
+      {
+        id: 1,
+        address_district: 'Centrum',
+        services: ['Pflege', 'Hauswirtschaft']
+      },
+      {
+        id: 1,
+        address_district: 'Hiltrup',
+        services: ['Betreuung']
+      }
+    ]);
+
+   /* await fetch("http://localhost:8000/inquiries?page=1&page_size=5&district=5&status=1")
         .then(response => response.json())
-        .then(data => setInquires(data))
+        .then(data => setInquires(data)) */
   }, []);
 
   return (
@@ -52,10 +74,10 @@ function Inquiries(props) {
                 <Tbody>
                   {inquires.map(inquiry =>
                   <Tr>
-                    <Td>inquiry.address.district</Td>
-                    <Td>inquiry.services</Td>
+                    <Td>{inquiry.address_district}</Td>
+                    <Td>{inquiry.services.join(', ')}</Td>
                     <Td>
-                      <Link as={RouterLink} to={"/inquiry/"+inquiry.id} alignSelf="flex-end">
+                      <Link as={RouterLink} to={"/detailsInquiry"} alignSelf="flex-end">
                       <Button variant="solid">
                         Mehr Informationen
                       </Button>
