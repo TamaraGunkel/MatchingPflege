@@ -30,20 +30,20 @@ def create_inquiry(inquiry: schemas.InquiryCreate, customer: schemas.CustomerCre
     if not db_customer:
         db_customer = crud.create_customer(db=db, customer=customer)
 
-    db_service_ids = []
+    db_services = []
     for service in services:
         db_service = crud.get_service(db=db, name=service.name)
         if not db_service:
             db_service = crud.create_service(db=db, service=service)
-        db_service_ids.append(db_service.id)
+        db_services.append(db_service)
 
-    db_time_ids = []
+    db_times = []
     for time in times:
         # Todo add check if time already in database
         db_time = crud.create_time(db=db, time=time)
-        db_time_ids.append(db_time.id)
+        db_times.append(db_time)
 
-    crud.create_inquiry(db=db, inquiry=inquiry, customer_id=db_customer.id, service_ids=db_service_ids, time_ids=db_time_ids)
+    crud.create_inquiry(db=db, inquiry=inquiry, customer_id=db_customer.id, services=db_services, times=db_times)
     return 200
 
 

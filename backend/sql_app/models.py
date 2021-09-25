@@ -1,8 +1,12 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Time, DateTime
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Time, DateTime, Table
 from sqlalchemy.orm import relationship
 
 from sql_app.database import Base
 
+inquiries_services_table = Table('inquiries_services', Base.metadata, Column('inquiry_id', ForeignKey('inquiries.id')),
+                                 Column('service_id', ForeignKey('services.id')))
+inquiries_time_table = Table('inquiries_times', Base.metadata, Column('inquiry_id', ForeignKey('inquiries.id')),
+                             Column('time_id', ForeignKey('inquiry_times.id')))
 
 class Customer(Base):
     __tablename__ = "customers"
@@ -38,10 +42,8 @@ class Inquiry(Base):
     necessary_expertise = Column(String)
     contact_opt_in = Column(Boolean)
 
-    service_id = Column(Integer, ForeignKey("services.id"))
-    services = relationship("Service")
-    time_id = Column(Integer, ForeignKey("inquiry_times.id"))
-    times = relationship("InquiryTime")
+    services = relationship("Service", secondary=inquiries_services_table)
+    times = relationship("InquiryTime", secondary=inquiries_time_table)
  
 
 class Service(Base):

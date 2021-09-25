@@ -7,17 +7,19 @@ from . import models, schemas
 from .database import Base
 
 
-def create_inquiry(db: Session, inquiry: schemas.InquiryCreate, customer_id: int, service_ids: List[int], time_ids: List[int]):
-    # dont only use first service id but create n:m relation
-    # todo do the same for times
-
+def create_inquiry(db: Session, inquiry: schemas.InquiryCreate, customer_id: int, services: List[models.Service], times: List[models.InquiryTime]):
     db_inquiry = models.Inquiry(address_street=inquiry.address.street, address_number=inquiry.address.number,
                                 address_postal_code=inquiry.address.postal_code, address_city=inquiry.address.city,
                                 address_district=inquiry.address.district, level_of_care=inquiry.level_of_care,
                                 duration_in_minutes=inquiry.duration.total_seconds() / 60, hiring_start=inquiry.hiring_start,
                                 hiring_end=inquiry.hiring_end, description=inquiry.description,
                                 necessary_expertise=inquiry.necessary_expertise, contact_opt_in=inquiry.contact_opt_in,
-                                customer_id=customer_id, service_id=service_ids[0], time_id=time_ids[0])
+                                customer_id=customer_id)
+    for service in services:
+        db_inquiry.services.append(service)
+    for time in times:
+        db_inquiry.times.append(time)
+
     db.add(db_inquiry)
     db.commit()
     db.refresh(db_inquiry)
