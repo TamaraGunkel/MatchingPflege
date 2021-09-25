@@ -45,7 +45,7 @@ def inquiry_to_schema(model):
         #     postal_code = model.address_postal_code,
         #     city = model.address_city,
         #     district = model.address_district
-        # ),
+        ),
         level_of_care = model.level_of_care,
         duration = model.duration_in_minutes,
         hiring_start = model.hiring_start,
