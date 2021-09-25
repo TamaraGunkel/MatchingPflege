@@ -7,7 +7,7 @@ const Header = () => {
   const location = useLocation();
 
   return (
-    <Box p={8} boxShadow="sm" w="100%" as="header">
+    <Box p={8} boxShadow="md" w="100%" as="header">
       <Flex>
         <HStack spacing={6}>
           <Image src={Logo} boxSize="24" />
