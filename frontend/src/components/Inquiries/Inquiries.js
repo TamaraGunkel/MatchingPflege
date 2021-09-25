@@ -17,6 +17,7 @@ import {
 
 } from "@chakra-ui/react"
 import {Link as RouterLink} from "react-router-dom";
+import {EmailIcon} from "@chakra-ui/icons";
 
 function Inquiries(props) {
 
